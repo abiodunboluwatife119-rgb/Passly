@@ -1,0 +1,141 @@
+.cart-page {
+  padding: 40px 0;
+  max-width: 640px;
+}
+
+.cart-page h1 {
+  margin-bottom: 24px;
+}
+
+.cart-empty {
+  text-align: center;
+  padding: 48px 0;
+}
+
+.cart-empty a {
+  color: var(--color-accent);
+  font-weight: 500;
+}
+
+.cart-restaurant-label {
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  margin-bottom: 16px;
+}
+
+.cart-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.cart-item-name {
+  font-weight: 500;
+}
+
+.cart-item-price {
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+}
+
+.cart-item-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.cart-item-controls button {
+  width: 28px;
+  height: 28px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  font-size: 1rem;
+}
+
+.cart-item-remove {
+  color: var(--color-error);
+  font-size: 0.85rem;
+  margin-left: 12px;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.cart-total {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.cart-checkout-btn {
+  width: 100%;
+  padding: 14px;
+  background-color: var(--color-black);
+  color: var(--color-surface);
+  border-radius: var(--radius);
+  font-size: 1rem;
+}
+
+/* Checkout page */
+.checkout-page {
+  padding: 40px 0;
+  max-width: 560px;
+}
+
+.checkout-summary {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin: 20px 0;
+}
+
+.checkout-summary-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+}
+
+.checkout-fulfillment {
+  display: flex;
+  gap: 24px;
+  margin: 16px 0;
+}
+
+.checkout-fulfillment label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.95rem;
+}
+
+.checkout-address input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  margin-top: 8px;
+}
+
+.checkout-pay-btn {
+  width: 100%;
+  padding: 14px;
+  background-color: var(--color-black);
+  color: var(--color-surface);
+  border-radius: var(--radius);
+  font-size: 1rem;
+  margin-top: 20px;
+}
+
+.checkout-pay-btn:disabled {
+  opacity: 0.6;
+}

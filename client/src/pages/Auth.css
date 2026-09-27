@@ -1,0 +1,134 @@
+.auth-page {
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 0;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 420px;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background-color: var(--color-surface);
+  box-shadow: var(--shadow-lg);
+}
+
+.auth-header {
+  position: relative;
+  height: 180px;
+  background: linear-gradient(135deg, var(--color-accent) 0%, #2C2520 100%);
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  padding: 28px 32px;
+}
+
+.auth-header::before {
+  content: '';
+  position: absolute;
+  top: -60px;
+  right: -60px;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background-color: var(--color-terracotta);
+  opacity: 0.5;
+}
+
+.auth-header::after {
+  content: '';
+  position: absolute;
+  bottom: -80px;
+  left: -40px;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  background-color: #F0ECDF;
+  opacity: 0.12;
+}
+
+.auth-header h1 {
+  position: relative;
+  z-index: 2;
+  color: #F9F7F1;
+  font-size: 1.8rem;
+}
+
+.auth-form {
+  padding: 32px;
+}
+
+.auth-form label {
+  display: block;
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+  margin-bottom: 6px;
+  margin-top: 20px;
+}
+
+.auth-form label:first-of-type {
+  margin-top: 0;
+}
+
+.auth-form input {
+  width: 100%;
+  padding: 10px 2px;
+  border: none;
+  border-bottom: 1.5px solid var(--color-border);
+  background: transparent;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  color: var(--color-black);
+  transition: border-color 0.2s ease;
+}
+
+.auth-form input:focus {
+  outline: none;
+  border-bottom-color: var(--color-accent);
+}
+
+.auth-error {
+  color: var(--color-error);
+  font-size: 0.88rem;
+  margin-top: 12px;
+}
+
+.auth-hint {
+  font-size: 0.78rem;
+  color: var(--color-text-secondary);
+  margin-top: 6px;
+}
+
+.auth-submit {
+  width: 100%;
+  margin-top: 32px;
+  padding: 13px;
+  background-color: var(--color-accent);
+  color: #F9F7F1;
+  border-radius: var(--radius);
+  font-size: 1rem;
+  font-weight: 600;
+  transition: background-color 0.2s ease;
+}
+
+.auth-submit:hover {
+  background-color: var(--color-terracotta);
+}
+
+.auth-submit:disabled {
+  opacity: 0.6;
+}
+
+.auth-switch {
+  text-align: center;
+  margin-top: 22px;
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+}
+
+.auth-switch a {
+  color: var(--color-accent);
+  font-weight: 600;
+}
