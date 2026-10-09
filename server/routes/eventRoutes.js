@@ -11,8 +11,8 @@ import { protect, restrictTo } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
-router.get('/mine', protect, restrictTo('vendor', 'admin'), getMyEvents);
 router.get('/', getEvents);
+router.get('/mine', protect, restrictTo('vendor', 'admin'), getMyEvents);
 router.get('/:id', getEventById);
 router.post('/', protect, restrictTo('vendor', 'admin'), createEvent);
 router.patch('/:id', protect, restrictTo('vendor', 'admin'), updateEvent);

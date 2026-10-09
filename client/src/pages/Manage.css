@@ -1,0 +1,235 @@
+.form-title {
+  margin-bottom: 4px;
+  font-size: 1.2rem;
+}
+
+.form-photo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+.form-photo img {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius);
+  object-fit: cover;
+}
+
+.form-photo span {
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+}
+
+.dashboard-form .checkbox-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+  font-size: 0.9rem;
+  color: var(--color-black);
+}
+
+.dashboard-form .checkbox-row input {
+  width: auto;
+}
+
+.manage-error {
+  margin-bottom: 20px;
+  padding: 12px 14px;
+  background-color: var(--color-error-light);
+  border-radius: var(--radius);
+  font-size: 0.9rem;
+  color: var(--color-error);
+}
+
+.item-desc {
+  display: -webkit-box;
+  margin-top: 6px;
+  overflow: hidden;
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.manage-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid var(--color-border);
+}
+
+.manage-btn {
+  padding: 7px 14px;
+  border: 1px solid var(--color-border-hover);
+  border-radius: var(--radius);
+  font-size: 0.82rem;
+  font-weight: 600;
+  transition: background-color var(--ease), border-color var(--ease);
+}
+
+.manage-btn:hover:not(:disabled) {
+  background-color: var(--color-surface-warm);
+  border-color: var(--color-black);
+}
+
+.manage-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.manage-btn-danger {
+  border-color: var(--color-error);
+  color: var(--color-error);
+}
+
+.manage-btn-danger:hover:not(:disabled) {
+  background-color: var(--color-error-light);
+  border-color: var(--color-error);
+}
+
+.manage-btn:focus-visible,
+.link-btn:focus-visible,
+.confirm-btn:focus-visible {
+  outline: 2px solid var(--color-terracotta);
+  outline-offset: 2px;
+}
+
+.menu-item-label {
+  flex: 1;
+  min-width: 0;
+}
+
+.menu-item-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.link-btn {
+  padding: 2px 4px;
+  font-size: 0.8rem;
+  color: var(--color-accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.link-btn-danger {
+  color: var(--color-error);
+}
+
+.menu-hidden-tag {
+  margin-left: 8px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background-color: var(--color-warning-light);
+  font-size: 0.7rem;
+  font-style: normal;
+  font-weight: 600;
+  color: var(--color-warning);
+}
+
+.item-edit {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 4px 0 10px;
+  padding: 12px;
+  background-color: var(--color-surface-warm);
+  border-radius: var(--radius);
+}
+
+.item-edit input:not([type='checkbox']) {
+  padding: 8px 10px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background-color: var(--color-surface);
+  font-size: 0.88rem;
+}
+
+.item-edit .checkbox-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+}
+
+.item-edit-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.item-edit-actions .dashboard-submit-btn {
+  width: auto;
+  margin-top: 0;
+  padding: 8px 18px;
+  font-size: 0.85rem;
+}
+
+.confirm-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background-color: rgba(44, 37, 32, 0.5);
+}
+
+.confirm-box {
+  width: 100%;
+  max-width: 420px;
+  padding: 28px;
+  background-color: var(--color-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+}
+
+.confirm-box h3 {
+  margin-bottom: 10px;
+}
+
+.confirm-box p {
+  line-height: 1.6;
+  color: var(--color-text-muted);
+}
+
+.confirm-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+.confirm-btn {
+  padding: 10px 18px;
+  border: 1.5px solid var(--color-border-hover);
+  border-radius: var(--radius);
+  font-weight: 600;
+  transition: background-color var(--ease);
+}
+
+.confirm-btn:hover:not(:disabled) {
+  background-color: var(--color-surface-warm);
+}
+
+.confirm-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.confirm-btn-danger {
+  background-color: var(--color-error);
+  border-color: var(--color-error);
+  color: var(--color-surface);
+}
+
+.confirm-btn-danger:hover:not(:disabled) {
+  background-color: var(--color-error);
+  opacity: 0.9;
+}

@@ -1,9 +1,39 @@
 import { useState, useEffect, useContext } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import './Detail.css';
 
 const API_URL = import.meta.env.VITE_API_URL;
+const toInputDate = (d) => d.toLocaleDateString('en-CA');
+
+const parseInputDate = (str) => new Date(`${str}T00:00:00`);
+
+const shortDate = (str) =>
+  parseInputDate(str).toLocaleDateString('en-GB', {
+    weekday: 'short',
+    day: 'numeric',
+    month: 'short',
+  });
+
+const dayAfter = (str) => {
+  const d = parseInputDate(str);
+  d.setDate(d.getDate() + 1);
+  return toInputDate(d);
+};
+
+const DetailSkeleton = () => (
+  <div className="container">
+    <div className="detail-layout" aria-busy="true" aria-label="Loading car">
+      <div>
+        <div className="skeleton skeleton-image" />
+        <div className="skeleton skeleton-line skeleton-title" />
+        <div className="skeleton skeleton-line" />
+        <div className="skeleton skeleton-line short" />
+      </div>
+      <div className="skeleton skeleton-box" />
+    </div>
+  </div>
+);
 
 const CarDetail = () => {
   const { id } = useParams();
@@ -13,21 +43,26 @@ const CarDetail = () => {
   const [car, setCar] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [activeImage, setActiveImage] = useState(0);
 
   const [pickupDate, setPickupDate] = useState('');
   const [returnDate, setReturnDate] = useState('');
   const [booking, setBooking] = useState(false);
   const [bookingError, setBookingError] = useState('');
 
+  const today = toInputDate(new Date());
+
   useEffect(() => {
     const fetchCar = async () => {
+      setLoading(true);
+      setError('');
       try {
         const res = await fetch(`${API_URL}/cars/${id}`);
-        if (!res.ok) throw new Error('Car not found');
+        if (!res.ok) throw new Error('We could not find that car.');
         const data = await res.json();
         setCar(data);
       } catch (err) {
-        setError(err.message);
+        setError(err.message || 'Something went wrong. Please try again.');
       } finally {
         setLoading(false);
       }
@@ -35,27 +70,39 @@ const CarDetail = () => {
     fetchCar();
   }, [id]);
 
-  const calculateDays = () => {
-    if (!pickupDate || !returnDate) return 0;
-    const start = new Date(pickupDate);
-    const end = new Date(returnDate);
-    const diffTime = end - start;
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    return diffDays > 0 ? diffDays : 0;
-  };
+  useEffect(() => {
+    if (car) document.title = `${car.make} ${car.model} · Passly`;
+    return () => {
+      document.title = 'Passly';
+    };
+  }, [car]);
+  let dateError = '';
+  if (pickupDate && pickupDate < today) {
+    dateError = 'Pickup date cannot be in the past.';
+  } else if (pickupDate && returnDate && returnDate <= pickupDate) {
+    dateError = 'Return date must be after the pickup date.';
+  }
 
-  const days = calculateDays();
-  const total = days * (car?.pricePerDay || 0);
+  const days =
+    pickupDate && returnDate && !dateError
+      ? Math.round((parseInputDate(returnDate) - parseInputDate(pickupDate)) / 86400000)
+      : 0;
+  const pricePerDay = car?.pricePerDay || 0;
+  const total = days * pricePerDay;
+
+  const handlePickupChange = (value) => {
+    setPickupDate(value);
+    setBookingError('');
+    if (returnDate && value && returnDate <= value) setReturnDate('');
+  };
 
   const handleBookNow = async () => {
     if (!user) {
       navigate('/login');
       return;
     }
-    if (days <= 0) {
-      setBookingError('Please select a valid pickup and return date');
-      return;
-    }
+    if (days <= 0) return;
+
     setBooking(true);
     setBookingError('');
     try {
@@ -79,8 +126,8 @@ const CarDetail = () => {
         }),
       });
       if (!res.ok) {
-        const data = await res.json();
-        throw new Error(data.message || 'Booking failed');
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.message || 'Booking failed. Please try again.');
       }
       navigate('/bookings');
     } catch (err) {
@@ -90,52 +137,170 @@ const CarDetail = () => {
     }
   };
 
-  if (loading) return <div className="container"><p>Loading...</p></div>;
-  if (error) return <div className="container"><p>{error}</p></div>;
+  if (loading) return <DetailSkeleton />;
+
+  if (error) {
+    return (
+      <div className="container">
+        <div className="detail-state">
+          <h2>Car unavailable</h2>
+          <p>{error}</p>
+          <Link to="/cars" className="detail-state-link">Back to cars</Link>
+        </div>
+      </div>
+    );
+  }
+
+  const images = car.images || [];
+  const buttonLabel = booking
+    ? 'Booking...'
+    : !user
+    ? 'Log in to book'
+    : days <= 0
+    ? 'Select your dates'
+    : 'Book Now';
 
   return (
     <div className="container">
+      <Link to="/cars" className="detail-back"> All cars</Link>
+
       <div className="detail-layout">
         <div>
-          {car.images?.[0] && (
-            <div className="detail-image">
-              <img src={car.images[0]} alt={`${car.make} ${car.model}`} />
+          {images[0] ? (
+            <>
+              <div className="detail-image">
+                <img src={images[activeImage] || images[0]} alt={`${car.make} ${car.model}`} />
+              </div>
+              {images.length > 1 && (
+                <div className="thumb-row">
+                  {images.map((src, i) => (
+                    <button
+                      key={src}
+                      type="button"
+                      className={`thumb ${i === activeImage ? 'active' : ''}`}
+                      onClick={() => setActiveImage(i)}
+                      aria-label={`Show photo ${i + 1}`}
+                    >
+                      <img src={src} alt="" />
+                    </button>
+                  ))}
+                </div>
+              )}
+            </>
+          ) : (
+            <div className="detail-image detail-image-placeholder" aria-hidden="true">
+              <span>{car.make.charAt(0)}</span>
             </div>
           )}
+
           <div className="detail-info">
-            <h1>{car.make} {car.model} ({car.year})</h1>
-            <p>{car.location}</p>
-            <p>{car.transmission}, {car.seats} seats</p>
-            <p>₦{car.pricePerDay.toLocaleString()}/day</p>
+            <div className="detail-badges">
+              {car.year && <span className="detail-badge">{car.year}</span>}
+            </div>
+            <h1>{car.make} {car.model}</h1>
+
+            <div className="detail-meta">
+              <div className="detail-meta-row">
+                <span className="detail-meta-label">Pickup</span>
+                <span>{car.location}</span>
+              </div>
+            </div>
+
+            <h2 className="detail-section-title">Specifications</h2>
+            <div className="spec-grid">
+              <div className="spec-card">
+                <span className="spec-label">Transmission</span>
+                <span className="spec-value">{car.transmission}</span>
+              </div>
+              <div className="spec-card">
+                <span className="spec-label">Seats</span>
+                <span className="spec-value">{car.seats}</span>
+              </div>
+              {car.year && (
+                <div className="spec-card">
+                  <span className="spec-label">Year</span>
+                  <span className="spec-value">{car.year}</span>
+                </div>
+              )}
+            </div>
+
+            {car.description && (
+              <>
+                <h2 className="detail-section-title">About this car</h2>
+                <p className="detail-description">{car.description}</p>
+              </>
+            )}
           </div>
         </div>
 
-        <div className="booking-box">
-          <h3>Book this car</h3>
+        <aside className="booking-box">
+          <div className="price-head">
+            <strong>₦{pricePerDay.toLocaleString()}</strong>
+            <span>/ day</span>
+          </div>
 
-          <label>Pickup date</label>
-          <input
-            type="date"
-            value={pickupDate}
-            onChange={(e) => setPickupDate(e.target.value)}
-          />
+          <div className="date-fields">
+            <div>
+              <label htmlFor="pickup">Pickup date</label>
+              <input
+                id="pickup"
+                type="date"
+                min={today}
+                value={pickupDate}
+                onChange={(e) => handlePickupChange(e.target.value)}
+              />
+            </div>
+            <div>
+              <label htmlFor="return">Return date</label>
+              <input
+                id="return"
+                type="date"
+                min={pickupDate ? dayAfter(pickupDate) : today}
+                value={returnDate}
+                onChange={(e) => {
+                  setReturnDate(e.target.value);
+                  setBookingError('');
+                }}
+              />
+            </div>
+          </div>
 
-          <label>Return date</label>
-          <input
-            type="date"
-            value={returnDate}
-            onChange={(e) => setReturnDate(e.target.value)}
-          />
+          {dateError ? (
+            <p className="booking-error" role="alert">{dateError}</p>
+          ) : days === 0 ? (
+            <p className="field-hint">Choose your pickup and return dates to see the price.</p>
+          ) : null}
 
           {days > 0 && (
-            <p className="booking-total">{days} day{days > 1 ? 's' : ''} — Total: ₦{total.toLocaleString()}</p>
+            <div className="price-breakdown">
+              <div className="price-breakdown-row">
+                <span>{shortDate(pickupDate)} → {shortDate(returnDate)}</span>
+              </div>
+              <div className="price-breakdown-row">
+                <span>₦{pricePerDay.toLocaleString()} × {days} day{days > 1 ? 's' : ''}</span>
+                <span>₦{total.toLocaleString()}</span>
+              </div>
+              <div className="price-breakdown-row price-breakdown-total">
+                <span>Total</span>
+                <span className="booking-total">₦{total.toLocaleString()}</span>
+              </div>
+            </div>
           )}
-          {bookingError && <p className="booking-error">{bookingError}</p>}
 
-          <button className="booking-submit" onClick={handleBookNow} disabled={booking}>
-            {booking ? 'Booking...' : 'Book Now'}
+          {bookingError && <p className="booking-error" role="alert">{bookingError}</p>}
+
+          <button
+            className="booking-submit"
+            onClick={handleBookNow}
+            disabled={booking || (!!user && days <= 0)}
+          >
+            {buttonLabel}
           </button>
-        </div>
+
+          {!user && (
+            <p className="booking-hint">You'll be asked to log in before booking.</p>
+          )}
+        </aside>
       </div>
     </div>
   );

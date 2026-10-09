@@ -1,0 +1,136 @@
+.vendor-apply {
+  max-width: 640px;
+}
+
+.vendor-apply h1 {
+  margin-bottom: 16px;
+}
+
+.vendor-intro {
+  margin-bottom: 20px;
+  color: var(--color-text-muted);
+}
+
+.vendor-banner {
+  margin-bottom: 24px;
+  padding: 22px;
+  border: 1px solid var(--color-border);
+  border-left-width: 5px;
+  border-radius: var(--radius-lg);
+  background-color: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+}
+
+.vendor-banner h2 {
+  margin-bottom: 6px;
+  font-size: 1.2rem;
+}
+
+.vendor-banner p {
+  line-height: 1.6;
+  color: var(--color-text-muted);
+}
+
+.vendor-banner-pending {
+  border-left-color: var(--color-warning);
+}
+
+.vendor-banner-success {
+  border-left-color: var(--color-success);
+  background-color: var(--color-success-light);
+}
+
+.vendor-banner-success h2 {
+  color: var(--color-success);
+}
+
+.vendor-banner-error {
+  border-left-color: var(--color-error);
+}
+
+.vendor-banner-error h2 {
+  color: var(--color-error);
+}
+
+.vendor-note {
+  margin-top: 12px;
+  padding: 10px 12px;
+  background-color: var(--color-surface-warm);
+  border-radius: var(--radius);
+  font-size: 0.9rem;
+}
+
+.vendor-note strong {
+  color: var(--color-black);
+}
+
+.vendor-summary {
+  display: grid;
+  gap: 8px;
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px dashed var(--color-border-hover);
+}
+
+.vendor-summary div {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.vendor-summary dt {
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.vendor-summary dd {
+  font-weight: 600;
+  text-align: right;
+  color: var(--color-black);
+}
+
+.vendor-btn {
+  display: inline-block;
+  margin-top: 16px;
+  padding: 10px 20px;
+  border: 1.5px solid var(--color-black);
+  border-radius: var(--radius);
+  font-weight: 600;
+  transition: transform var(--ease), box-shadow var(--ease), background-color var(--ease);
+}
+
+.vendor-btn-primary {
+  background-color: var(--color-black);
+  color: var(--color-surface);
+}
+
+.vendor-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.vendor-btn:focus-visible {
+  outline: 2px solid var(--color-terracotta);
+  outline-offset: 2px;
+}
+
+.vendor-skeleton {
+  height: 220px;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(
+    90deg,
+    var(--color-border) 25%,
+    rgba(255, 255, 255, 0.5) 50%,
+    var(--color-border) 75%
+  );
+  background-size: 200% 100%;
+  animation: vendor-shimmer 1.4s infinite linear;
+}
+
+@keyframes vendor-shimmer {
+  from { background-position: 200% 0; }
+  to { background-position: -200% 0; }
+}

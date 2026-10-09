@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import User from '../models/User.js';
+import { sendWelcomeEmail } from '../config/mailer.js';
 
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: '7d' });
@@ -39,6 +40,10 @@ export const signup = async (req, res) => {
       name,
       email: email.toLowerCase(),
       password: hashedPassword,
+    });
+
+    void sendWelcomeEmail(user).catch((err) => {
+      console.error('Welcome email failed:', err.message);
     });
 
     const token = generateToken(user._id);

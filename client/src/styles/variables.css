@@ -1,28 +1,22 @@
 :root {
-  /* ── Core ── */
   --color-black: #2C2520;
   --color-bg: #EDEAD9;
   --color-surface: #F9F7F1;
   --color-surface-warm: #F0ECDF;
 
-  /* ── Text ── */
   --color-text-muted: #7A7265;
   --color-text-secondary: #9C9488;
 
-  /* ── Borders ── */
   --color-border: #DDD8CA;
   --color-border-hover: #B8B0A0;
 
-  /* ── Accent (warm burgundy) ── */
   --color-accent: #5C1A1A;
   --color-accent-hover: #7A2B2B;
   --color-accent-light: #F0DFDD;
 
-  /* ── Secondary accent (muted terracotta) ── */
   --color-terracotta: #B45A3C;
   --color-terracotta-light: #F0DDD5;
 
-  /* ── Semantic ── */
   --color-success: #2D5A3D;
   --color-success-light: #D9EBE0;
   --color-error: #8B3A3A;
@@ -30,20 +24,13 @@
   --color-warning: #8A6D1A;
   --color-warning-light: #EDE4C5;
 
-  /* ── Fonts ── */
   --font-heading: 'Fraunces', serif;
   --font-body: 'Inter', sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
-
-  /* ── Radius ── */
   --radius: 6px;
   --radius-lg: 10px;
-
-  /* ── Shadows ── */
   --shadow-sm: 0 1px 3px rgba(44, 37, 32, 0.06);
   --shadow-md: 0 4px 12px rgba(44, 37, 32, 0.10);
   --shadow-lg: 0 8px 24px rgba(44, 37, 32, 0.14);
-
-  /* ── Transitions ── */
   --ease: 0.2s ease;
 }

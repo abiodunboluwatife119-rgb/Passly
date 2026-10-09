@@ -1,6 +1,15 @@
 import Restaurant from '../models/Restaurant.js';
 import MenuItem from '../models/MenuItem.js';
 
+const RESTAURANT_FIELDS = ['name', 'cuisine', 'location', 'description', 'images'];
+const MENU_ITEM_FIELDS = ['name', 'price', 'image', 'available', 'description'];
+
+const pick = (source, fields) =>
+  fields.reduce((result, field) => {
+    if (source[field] !== undefined) result[field] = source[field];
+    return result;
+  }, {});
+
 export const getRestaurants = async (req, res) => {
   try {
     const { cuisine } = req.query;
@@ -46,10 +55,47 @@ export const getRestaurantById = async (req, res) => {
 export const createRestaurant = async (req, res) => {
   try {
     const restaurant = await Restaurant.create({
-      ...req.body,
+      ...pick(req.body, RESTAURANT_FIELDS),
       vendorId: req.user.id,
     });
     res.status(201).json(restaurant);
+  } catch (err) {
+    res.status(500).json({ message: 'Server error', error: err.message });
+  }
+};
+
+export const updateRestaurant = async (req, res) => {
+  try {
+    const restaurant = await Restaurant.findById(req.params.id);
+    if (!restaurant) {
+      return res.status(404).json({ message: 'Restaurant not found' });
+    }
+    if (restaurant.vendorId.toString() !== req.user.id && req.user.role !== 'admin') {
+      return res.status(403).json({ message: 'Not authorized to edit this restaurant' });
+    }
+    const updated = await Restaurant.findByIdAndUpdate(
+      req.params.id,
+      pick(req.body, RESTAURANT_FIELDS),
+      { new: true, runValidators: true }
+    );
+    res.status(200).json(updated);
+  } catch (err) {
+    res.status(500).json({ message: 'Server error', error: err.message });
+  }
+};
+
+export const deleteRestaurant = async (req, res) => {
+  try {
+    const restaurant = await Restaurant.findById(req.params.id);
+    if (!restaurant) {
+      return res.status(404).json({ message: 'Restaurant not found' });
+    }
+    if (restaurant.vendorId.toString() !== req.user.id && req.user.role !== 'admin') {
+      return res.status(403).json({ message: 'Not authorized to delete this restaurant' });
+    }
+    await MenuItem.deleteMany({ restaurantId: restaurant._id });
+    await restaurant.deleteOne();
+    res.status(200).json({ message: 'Restaurant deleted' });
   } catch (err) {
     res.status(500).json({ message: 'Server error', error: err.message });
   }
@@ -65,7 +111,7 @@ export const addMenuItem = async (req, res) => {
       return res.status(403).json({ message: 'Not authorized to add items to this restaurant' });
     }
     const menuItem = await MenuItem.create({
-      ...req.body,
+      ...pick(req.body, MENU_ITEM_FIELDS),
       restaurantId: restaurant._id,
     });
     res.status(201).json(menuItem);
@@ -84,10 +130,11 @@ export const updateMenuItem = async (req, res) => {
     if (restaurant.vendorId.toString() !== req.user.id && req.user.role !== 'admin') {
       return res.status(403).json({ message: 'Not authorized to edit this menu item' });
     }
-    const updated = await MenuItem.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-      runValidators: true,
-    });
+    const updated = await MenuItem.findByIdAndUpdate(
+      req.params.id,
+      pick(req.body, MENU_ITEM_FIELDS),
+      { new: true, runValidators: true }
+    );
     res.status(200).json(updated);
   } catch (err) {
     res.status(500).json({ message: 'Server error', error: err.message });

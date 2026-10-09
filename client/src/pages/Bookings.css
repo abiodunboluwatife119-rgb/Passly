@@ -1,21 +1,63 @@
+/* =========================================================
+   My Bookings
+   ========================================================= */
 .bookings-page {
-  padding: 40px 0;
+  padding: 40px 0 64px;
   max-width: 720px;
 }
 
 .bookings-page h1 {
+  font-size: 2.2rem;
   margin-bottom: 24px;
 }
 
+@media (max-width: 768px) {
+  .bookings-page h1 {
+    font-size: 1.7rem;
+  }
+}
+
 .booking-card {
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius);
-  padding: 20px;
+  position: relative;
+  padding: 22px 22px 22px 26px;
   margin-bottom: 16px;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  transition: box-shadow var(--ease), transform var(--ease), border-color var(--ease);
+}
+
+.booking-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+  border-color: var(--color-border-hover);
+}
+
+/* Status stripe on the left edge */
+.booking-card::before {
+  content: '';
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 5px;
+  background-color: var(--color-border-hover);
+}
+
+.booking-card:has(.status-pending)::before {
+  background-color: var(--color-warning);
+}
+
+.booking-card:has(.status-paid)::before {
+  background-color: var(--color-success);
+}
+
+.booking-card:has(.status-cancelled)::before {
+  background-color: var(--color-error);
 }
 
 .booking-card h3 {
-  font-size: 1.05rem;
+  font-size: 1.1rem;
   margin-bottom: 6px;
 }
 
@@ -25,36 +67,41 @@
   margin-bottom: 4px;
 }
 
+/* ---------- Status badges ---------- */
 .booking-status {
   display: inline-block;
-  padding: 3px 10px;
-  border-radius: 20px;
-  font-size: 0.78rem;
-  font-weight: 500;
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
-  margin-top: 8px;
+  margin-top: 10px;
 }
 
 .status-pending {
-  background-color: #f5e6c8;
-  color: #8a6d1a;
+  background-color: var(--color-warning-light);
+  color: var(--color-warning);
 }
 
 .status-paid {
-  background-color: #dcece1;
+  background-color: var(--color-success-light);
   color: var(--color-success);
 }
 
 .status-cancelled {
-  background-color: #f2dcdc;
+  background-color: var(--color-error-light);
   color: var(--color-error);
 }
 
+/* ---------- Actions ---------- */
 .booking-action-btn {
-  margin-top: 12px;
-  padding: 8px 18px;
+  margin-top: 14px;
+  padding: 10px 20px;
   border-radius: var(--radius);
   font-size: 0.9rem;
+  font-weight: 600;
+  transition: transform var(--ease), box-shadow var(--ease), opacity var(--ease);
 }
 
 .booking-pay-btn {
@@ -62,18 +109,39 @@
   color: var(--color-surface);
 }
 
+.booking-pay-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
 .booking-pay-btn:disabled {
   opacity: 0.6;
+  cursor: not-allowed;
 }
 
 .booking-view-ticket {
   display: inline-block;
+  margin-top: 12px;
   color: var(--color-accent);
-  font-weight: 500;
-  margin-top: 8px;
+  font-weight: 600;
+  transition: color var(--ease);
 }
 
-/* TicketView */
+.booking-view-ticket:hover {
+  color: var(--color-accent-hover);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.booking-action-btn:focus-visible,
+.booking-view-ticket:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* =========================================================
+   Ticket view
+   ========================================================= */
 .ticket-page {
   padding: 60px 0;
   display: flex;
@@ -81,13 +149,30 @@
 }
 
 .ticket-card {
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius);
-  padding: 40px;
-  max-width: 400px;
+  position: relative;
   width: 100%;
+  max-width: 400px;
+  padding: 44px 32px 36px;
   text-align: center;
   background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+}
+
+/* Colour band across the top, like a ticket header */
+.ticket-card::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 8px;
+  background: linear-gradient(90deg, var(--color-accent), var(--color-terracotta));
+}
+
+.ticket-card h1,
+.ticket-card h2 {
+  margin-bottom: 8px;
 }
 
 .ticket-card p {
@@ -96,19 +181,420 @@
 }
 
 .ticket-code {
+  margin: 24px 0;
+  padding: 18px 12px;
   font-family: var(--font-mono);
-  font-size: 1.8rem;
-  letter-spacing: 2px;
-  margin: 20px 0;
+  font-size: 1.6rem;
+  letter-spacing: 3px;
   color: var(--color-black);
+  background-color: var(--color-surface-warm);
+  border: 1.5px dashed var(--color-border-hover);
+  border-radius: var(--radius);
+  word-break: break-all;
 }
 
 .ticket-status-badge {
   display: inline-block;
-  padding: 4px 14px;
-  border-radius: 20px;
-  font-size: 0.85rem;
-  font-weight: 500;
+  padding: 5px 16px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
   margin-top: 12px;
+}
+
+@media (max-width: 480px) {
+  .ticket-card {
+    padding: 40px 20px 28px;
+  }
+
+  .ticket-code {
+    font-size: 1.3rem;
+    letter-spacing: 2px;
+  }
+}
+
+.booking-card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.booking-card-head .booking-status {
+  margin-top: 0;
+  flex-shrink: 0;
+}
+
+.booking-type {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+
+.booking-detail {
+  margin-top: 10px;
+}
+
+.booking-items {
+  list-style: none;
+  display: grid;
+  gap: 6px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--color-border);
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+}
+
+.booking-items li {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.booking-card-foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid var(--color-border);
+}
+
+.booking-amount span {
+  display: block;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+
+.booking-amount strong {
+  font-size: 1.2rem;
+}
+
+.booking-card-foot .booking-action-btn,
+.booking-card-foot .booking-view-ticket {
+  margin-top: 0;
+}
+
+.booking-pay-error {
+  margin-top: 12px;
+  padding: 10px 12px;
+  background-color: var(--color-error-light);
+  border-radius: var(--radius);
+  font-size: 0.88rem;
+  color: var(--color-error);
+}
+
+.bk-filters {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.bk-filter {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border: 1.5px solid var(--color-border);
+  border-radius: 999px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  white-space: nowrap;
+  background-color: var(--color-surface);
+  transition: border-color var(--ease), background-color var(--ease), color var(--ease);
+}
+
+.bk-filter:hover {
+  border-color: var(--color-black);
+}
+
+.bk-filter.active {
+  background-color: var(--color-black);
+  border-color: var(--color-black);
+  color: var(--color-surface);
+}
+
+.bk-filter-count {
+  font-size: 0.75rem;
+  opacity: 0.7;
+}
+
+.bk-filter:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.bk-none {
+  padding: 40px 0;
+  text-align: center;
+  color: var(--color-text-muted);
+}
+
+.bk-state {
+  max-width: 420px;
+  margin: 0 auto;
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.bk-state-mark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 72px;
+  height: 72px;
+  margin: 0 auto 20px;
+  border-radius: 50%;
+  background-color: var(--color-surface-warm);
+  font-size: 1.8rem;
+}
+
+.bk-state h2 {
+  font-size: 1.4rem;
+  margin-bottom: 8px;
+}
+
+.bk-state p {
+  margin-bottom: 24px;
+  color: var(--color-text-muted);
+}
+
+.bk-state-links {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.bk-state-btn {
+  display: inline-block;
+  padding: 11px 22px;
+  background-color: var(--color-black);
+  color: var(--color-surface);
+  border-radius: var(--radius);
+  font-weight: 600;
+  transition: transform var(--ease), box-shadow var(--ease);
+}
+
+.bk-state-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.bk-skeleton {
+  height: 150px;
+  margin-bottom: 16px;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(
+    90deg,
+    var(--color-border) 25%,
+    rgba(255, 255, 255, 0.5) 50%,
+    var(--color-border) 75%
+  );
+  background-size: 200% 100%;
+  animation: bk-shimmer 1.4s infinite linear;
+}
+
+@keyframes bk-shimmer {
+  from { background-position: 200% 0; }
+  to { background-position: -200% 0; }
+}
+
+.tk-wrap {
+  width: 100%;
+  max-width: 400px;
+}
+
+.tk-back {
+  margin: 0 0 16px;
+}
+
+.tk {
+  position: relative;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+}
+
+.tk::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 8px;
+  background: linear-gradient(90deg, var(--color-accent), var(--color-terracotta));
+}
+
+.tk-inactive::before {
+  background: var(--color-border-hover);
+}
+
+.tk-main {
+  padding: 40px 28px 28px;
+  text-align: center;
+}
+
+.tk-brand {
+  display: block;
+  margin-bottom: 18px;
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+.tk-type {
+  margin-bottom: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+
+.tk-title {
+  margin-bottom: 8px;
+  font-size: 1.9rem;
+  line-height: 1.15;
+}
+
+.tk-used {
+  margin-top: 12px;
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+.tk-tear {
+  position: relative;
+  height: 0;
+  margin: 0 20px;
+  border-top: 2px dashed var(--color-border-hover);
+}
+
+.tk-tear::before,
+.tk-tear::after {
+  content: '';
+  position: absolute;
+  top: -13px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-border);
+}
+
+.tk-tear::before {
+  left: -33px;
+}
+
+.tk-tear::after {
+  right: -33px;
+}
+
+.tk-stub {
+  padding: 28px 28px 32px;
+  text-align: center;
+}
+
+.tk-qr {
+  position: relative;
+  display: inline-block;
+  padding: 14px;
+  background-color: #ffffff;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  line-height: 0;
+}
+
+.tk-inactive .tk-qr svg {
+  opacity: 0.18;
+}
+
+.tk-qr-veil {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1;
+  color: var(--color-text-muted);
+}
+
+.tk-code {
+  margin: 20px 0 8px;
+  padding: 12px;
+  font-family: var(--font-mono);
+  font-size: 1.35rem;
+  letter-spacing: 3px;
+  color: var(--color-black);
+  background-color: var(--color-surface-warm);
+  border: 1.5px dashed var(--color-border-hover);
+  border-radius: var(--radius);
+  word-break: break-all;
+}
+
+.tk-copy {
+  padding: 8px 18px;
+  border: 1.5px solid var(--color-black);
+  border-radius: var(--radius);
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: background-color var(--ease), color var(--ease);
+}
+
+.tk-copy:hover {
+  background-color: var(--color-black);
+  color: var(--color-surface);
+}
+
+.tk-copy:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.tk-note {
+  margin-top: 16px;
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+.tk-skeleton {
+  width: 100%;
+  max-width: 400px;
+  height: 560px;
+}
+
+@media (max-width: 480px) {
+  .tk-main {
+    padding: 36px 20px 24px;
+  }
+
+  .tk-title {
+    font-size: 1.6rem;
+  }
+
+  .tk-code {
+    font-size: 1.1rem;
+    letter-spacing: 2px;
+  }
 }

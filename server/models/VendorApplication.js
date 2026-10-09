@@ -17,6 +17,7 @@ const vendorApplicationSchema = new mongoose.Schema(
     },
     reviewedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     reviewedAt: { type: Date },
+    reviewNote: { type: String, default: '', trim: true, maxlength: 500 },
   },
   { timestamps: true }
 );

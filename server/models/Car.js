@@ -7,6 +7,7 @@ const carSchema = new mongoose.Schema(
     year: { type: Number, required: true },
     pricePerDay: { type: Number, required: true },
     location: { type: String, required: true },
+    description: { type: String, default: '', trim: true, maxlength: 1000 },
     images: [{ type: String }],
     transmission: {
       type: String,

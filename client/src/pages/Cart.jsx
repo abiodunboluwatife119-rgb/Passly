@@ -3,52 +3,117 @@ import { Link, useNavigate } from 'react-router-dom';
 import { CartContext } from '../context/CartContext';
 import './Cart.css';
 
+const naira = (n) => `₦${Number(n || 0).toLocaleString()}`;
+
 const Cart = () => {
   const { items, removeFromCart, updateQty, total } = useContext(CartContext);
   const navigate = useNavigate();
 
   if (items.length === 0) {
     return (
-      <div className="container cart-page">
-        <h1>Your Cart</h1>
-        <div className="cart-empty">
-          <p>Your cart is empty.</p>
-          <Link to="/restaurants">Browse restaurants</Link>
+      <div className="container">
+        <div className="bag-empty">
+          <div className="bag-empty-mark" aria-hidden="true">🍽</div>
+          <h1>Your cart is empty</h1>
+          <p>Browse restaurants and add a few dishes to get started.</p>
+          <Link to="/restaurants" className="bag-empty-link">Browse restaurants</Link>
         </div>
       </div>
     );
   }
 
+  const itemCount = items.reduce((sum, i) => sum + i.qty, 0);
+  const restaurantName = items[0].restaurantName;
+
   return (
-    <div className="container cart-page">
-      <h1>Your Cart</h1>
-      <p className="cart-restaurant-label">From: {items[0].restaurantName}</p>
+    <div className="container">
+      <header className="bag-header">
+        <h1>Your cart</h1>
+        <p>
+          {itemCount} item{itemCount > 1 ? 's' : ''} from <strong>{restaurantName}</strong>
+        </p>
+      </header>
 
-      {items.map((item) => (
-        <div key={item.menuItemId} className="cart-item">
-          <div>
-            <p className="cart-item-name">{item.name}</p>
-            <p className="cart-item-price">₦{item.price.toLocaleString()} each</p>
-          </div>
-          <div className="cart-item-controls">
-            <button onClick={() => updateQty(item.menuItemId, item.qty - 1)}>-</button>
-            <span>{item.qty}</span>
-            <button onClick={() => updateQty(item.menuItemId, item.qty + 1)}>+</button>
-            <button className="cart-item-remove" onClick={() => removeFromCart(item.menuItemId)}>
-              Remove
-            </button>
-          </div>
-        </div>
-      ))}
+      <div className="bag-layout">
+        <ul className="bag-list">
+          {items.map((item) => (
+            <li key={item.menuItemId} className="bag-item">
+              {item.image ? (
+                <img src={item.image} alt="" className="bag-item-image" />
+              ) : (
+                <div className="bag-item-image bag-item-image-empty" aria-hidden="true">
+                  {item.name.charAt(0)}
+                </div>
+              )}
 
-      <div className="cart-total">
-        <span>Total</span>
-        <span>₦{total.toLocaleString()}</span>
+              <div className="bag-item-main">
+                <div className="bag-item-top">
+                  <h3>{item.name}</h3>
+                  <span className="bag-item-line">{naira(item.price * item.qty)}</span>
+                </div>
+                <p className="bag-item-unit">{naira(item.price)} each</p>
+
+                <div className="bag-item-bottom">
+                  <div className="bag-stepper">
+                    <button
+                      type="button"
+                      onClick={() => updateQty(item.menuItemId, item.qty - 1)}
+                      disabled={item.qty <= 1}
+                      aria-label={`Decrease ${item.name}`}
+                    >
+                      −
+                    </button>
+                    <span aria-live="polite">{item.qty}</span>
+                    <button
+                      type="button"
+                      onClick={() => updateQty(item.menuItemId, item.qty + 1)}
+                      aria-label={`Increase ${item.name}`}
+                    >
+                      +
+                    </button>
+                  </div>
+
+                  <button
+                    type="button"
+                    className="bag-remove"
+                    onClick={() => removeFromCart(item.menuItemId)}
+                    aria-label={`Remove ${item.name} from cart`}
+                  >
+                    Remove
+                  </button>
+                </div>
+              </div>
+            </li>
+          ))}
+        </ul>
+
+        <aside className="bag-summary">
+          <h3>Order summary</h3>
+
+          <div className="bag-summary-row">
+            <span>Items ({itemCount})</span>
+            <span>{naira(total)}</span>
+          </div>
+          <p className="bag-summary-note">
+            You'll choose pickup or delivery on the next step.
+          </p>
+
+          <div className="bag-summary-total">
+            <span>Total</span>
+            <span>{naira(total)}</span>
+          </div>
+
+          <button
+            type="button"
+            className="bag-checkout"
+            onClick={() => navigate('/checkout')}
+          >
+            Proceed to checkout
+          </button>
+
+          <Link to="/restaurants" className="bag-continue">Continue browsing</Link>
+        </aside>
       </div>
-
-      <button className="cart-checkout-btn" onClick={() => navigate('/checkout')}>
-        Proceed to Checkout
-      </button>
     </div>
   );
 };

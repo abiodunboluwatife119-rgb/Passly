@@ -1,114 +1,232 @@
-.bookings-page {
-  padding: 40px 0;
-  max-width: 720px;
+.verify-page {
+  max-width: 560px;
+  padding: 48px 0 72px;
 }
 
-.bookings-page h1 {
-  margin-bottom: 24px;
+.verify-header h1 {
+  font-size: 2.2rem;
+  margin-bottom: 8px;
 }
 
-.booking-card {
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius);
-  padding: 20px;
-  margin-bottom: 16px;
-}
-
-.booking-card h3 {
-  font-size: 1.05rem;
-  margin-bottom: 6px;
-}
-
-.booking-card p {
+.verify-header p {
   color: var(--color-text-muted);
-  font-size: 0.9rem;
-  margin-bottom: 4px;
+  line-height: 1.6;
 }
 
-.booking-status {
-  display: inline-block;
-  padding: 3px 10px;
-  border-radius: 20px;
-  font-size: 0.78rem;
-  font-weight: 500;
+@media (max-width: 768px) {
+  .verify-header h1 {
+    font-size: 1.7rem;
+  }
+}
+
+.verify-form {
+  margin-top: 28px;
+}
+
+.verify-label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+.verify-row {
+  display: flex;
+  gap: 10px;
+}
+
+.verify-row input {
+  flex: 1;
+  min-width: 0;
+  padding: 14px 16px;
+  font-family: var(--font-mono);
+  font-size: 1.2rem;
+  letter-spacing: 2px;
   text-transform: uppercase;
-  margin-top: 8px;
+  background-color: var(--color-surface);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius);
 }
 
-.status-pending {
-  background-color: #f5e6c8;
-  color: #8a6d1a;
+.verify-row button {
+  padding: 0 28px;
+  background-color: var(--color-black);
+  color: var(--color-surface);
+  border-radius: var(--radius);
+  font-size: 1rem;
+  font-weight: 600;
+  transition: transform var(--ease), box-shadow var(--ease), opacity var(--ease);
 }
 
-.status-paid {
-  background-color: #dcece1;
-  color: var(--color-success);
+.verify-row button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
 }
 
-.status-cancelled {
-  background-color: #f2dcdc;
+.verify-row button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.verify-row button:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+@media (max-width: 480px) {
+  .verify-row {
+    flex-direction: column;
+  }
+
+  .verify-row button {
+    padding: 14px;
+  }
+}
+
+.verify-error {
+  margin-top: 20px;
+  padding: 12px 14px;
+  background-color: var(--color-error-light);
+  border-radius: var(--radius);
+  font-size: 0.9rem;
   color: var(--color-error);
 }
 
-.booking-action-btn {
-  margin-top: 12px;
-  padding: 8px 18px;
-  border-radius: var(--radius);
-  font-size: 0.9rem;
-}
-
-.booking-pay-btn {
-  background-color: var(--color-black);
-  color: var(--color-surface);
-}
-
-.booking-pay-btn:disabled {
-  opacity: 0.6;
-}
-
-.booking-view-ticket {
-  display: inline-block;
-  color: var(--color-accent);
-  font-weight: 500;
-  margin-top: 8px;
-}
-
-/* TicketView */
-.ticket-page {
-  padding: 60px 0;
-  display: flex;
-  justify-content: center;
-}
-
-.ticket-card {
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius);
-  padding: 40px;
-  max-width: 400px;
-  width: 100%;
+.verify-result {
+  margin-top: 28px;
+  padding: 28px 24px;
   text-align: center;
   background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-top-width: 8px;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
 }
 
-.ticket-card p {
-  color: var(--color-text-muted);
-  margin-bottom: 4px;
+.verify-valid {
+  border-top-color: var(--color-success);
+  background-color: var(--color-success-light);
 }
 
-.ticket-code {
-  font-family: var(--font-mono);
-  font-size: 1.8rem;
-  letter-spacing: 2px;
-  margin: 20px 0;
+.verify-used {
+  border-top-color: var(--color-warning);
+  background-color: var(--color-warning-light);
+}
+
+.verify-bad {
+  border-top-color: var(--color-error);
+  background-color: var(--color-error-light);
+}
+
+.verify-result-label {
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  font-weight: 600;
+  line-height: 1.1;
+}
+
+.verify-valid .verify-result-label { color: var(--color-success); }
+.verify-used .verify-result-label { color: var(--color-warning); }
+.verify-bad .verify-result-label { color: var(--color-error); }
+
+.verify-result-message {
+  margin-top: 8px;
   color: var(--color-black);
 }
 
-.ticket-status-badge {
-  display: inline-block;
-  padding: 4px 14px;
-  border-radius: 20px;
-  font-size: 0.85rem;
-  font-weight: 500;
+.verify-details {
+  display: grid;
+  gap: 10px;
+  margin-top: 20px;
+  padding-top: 18px;
+  border-top: 1px dashed var(--color-border-hover);
+  text-align: left;
+}
+
+.verify-details div {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.verify-details dt {
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
-  margin-top: 12px;
+  color: var(--color-text-muted);
+}
+
+.verify-details dd {
+  font-weight: 600;
+  text-align: right;
+  text-transform: capitalize;
+}
+
+.verify-details dd.verify-mono {
+  text-transform: none;
+}
+
+.verify-mono {
+  font-family: var(--font-mono);
+  letter-spacing: 1px;
+}
+
+.verify-submitted {
+  margin-top: 14px;
+  font-size: 1.1rem;
+}
+
+.verify-recent {
+  margin-top: 40px;
+}
+
+.verify-recent h2 {
+  margin-bottom: 8px;
+  font-size: 1.05rem;
+}
+
+.verify-recent ul {
+  list-style: none;
+}
+
+.verify-recent li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--color-border);
+  font-size: 0.92rem;
+}
+
+.verify-recent li .verify-mono {
+  flex: 1;
+}
+
+.verify-time {
+  color: var(--color-text-secondary);
+  font-size: 0.82rem;
+}
+
+.verify-pill {
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.verify-pill-valid {
+  background-color: var(--color-success-light);
+  color: var(--color-success);
+}
+
+.verify-pill-used {
+  background-color: var(--color-warning-light);
+  color: var(--color-warning);
+}
+
+.verify-pill-bad {
+  background-color: var(--color-error-light);
+  color: var(--color-error);
 }
