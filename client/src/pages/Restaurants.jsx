@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './Listings.css';
+import './PagePatterns.css';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -62,11 +63,11 @@ const Restaurants = () => {
     }
   };
 
-  if (loading) return <div className="container"><p>Loading...</p></div>;
-  if (error) return <div className="container"><p>{error}</p></div>;
+  if (loading) return <div className="container restaurants-page"><p>Loading...</p></div>;
+  if (error) return <div className="container restaurants-page"><p>{error}</p></div>;
 
   return (
-    <div className="container">
+    <div className="container restaurants-page">
       <section className="hero-section">
         <h1>Find a restaurant</h1>
         <p>Search by cuisine, or search for a specific dish across all restaurants.</p>

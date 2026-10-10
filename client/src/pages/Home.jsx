@@ -57,11 +57,6 @@ const FAQS = [
       'The first scan marks the ticket as used. Any later scan shows that it was already used, along with the time of the first scan.',
   },
   {
-    question: 'Is real money charged?',
-    answer:
-      'No. Payments in this version are simulated, so you can try the full booking flow safely.',
-  },
-  {
     question: 'Can I book an event, a car and a meal in one go?',
     answer:
       'Each one is its own booking, but they all live in one account and one My Bookings page.',

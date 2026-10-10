@@ -1,41 +1,31 @@
-import { useContext, useEffect, useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useContext, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
-import './Auth.css';
+import AuthShell from '../components/AuthShell';
 
 const API_URL = import.meta.env.VITE_API_URL;
-const headlines = ['night', 'road', 'table'];
 
 const Signup = () => {
+  const { signup } = useContext(AuthContext);
+  const navigate = useNavigate();
+
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const [headlineIndex, setHeadlineIndex] = useState(0);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
+  const [done, setDone] = useState(false);
 
-  const { signup } = useContext(AuthContext);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const timer = window.setInterval(() => {
-      setHeadlineIndex((current) => (current + 1) % headlines.length);
-    }, 2800);
-    return () => window.clearInterval(timer);
-  }, []);
-
-  const requirements = [
-    { label: '8 characters', valid: password.length >= 8 },
-    { label: 'One letter', valid: /[A-Za-z]/.test(password) },
-    { label: 'One number', valid: /\d/.test(password) },
+  const checks = [
+    { label: '8 or more characters', met: password.length >= 8 },
+    { label: 'At least one letter', met: /[A-Za-z]/.test(password) },
+    { label: 'At least one number', met: /\d/.test(password) },
   ];
-  const passwordValid = requirements.every((requirement) => requirement.valid);
+  const strong = checks.every((check) => check.met);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!passwordValid) return;
     setError('');
     setLoading(true);
 
@@ -45,86 +35,94 @@ const Signup = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, email, password }),
       });
-
       const data = await res.json();
-      if (!res.ok) throw new Error(data.message || 'Signup failed');
+
+      if (!res.ok) {
+        throw new Error(data.message || 'Signup failed');
+      }
 
       signup(data.user, data.token);
-      setSuccess(true);
-      window.setTimeout(() => navigate('/'), 650);
+      setDone(true);
+      setTimeout(() => navigate('/'), 600);
     } catch (err) {
       setError(err.message);
       setLoading(false);
     }
   };
 
+  const buttonClass = `auth-submit${loading ? ' is-loading' : ''}${done ? ' is-done' : ''}`;
+
   return (
-    <main className="auth-page">
-      <section className="auth-shell" aria-label="Passly account signup">
-        <aside className="auth-brand-panel">
-          <div className="brand-shape brand-shape-one" />
-          <div className="brand-shape brand-shape-two" />
-          <div className="brand-shape brand-shape-three" />
-          <div className="auth-brand-content">
-            <div className="brand-mark">P</div>
-            <p className="eyebrow">Passly / access made easy</p>
-            <h1>Your pass to the <span key={headlines[headlineIndex]}>{headlines[headlineIndex]}</span></h1>
-            <div className="sample-ticket" aria-hidden="true">
-              <div className="ticket-top"><span>PASSLY</span><span>№ 0248</span></div>
-              <div className="ticket-route"><strong>ANYWHERE</strong><span>→</span><strong>TONIGHT</strong></div>
-              <div className="ticket-bottom"><span>ADMIT ONE</span><span>09 / 26</span></div>
-            </div>
-          </div>
-        </aside>
+    <AuthShell
+      title="Create your pass"
+      subtitle="One account for tickets, rentals and meals. It takes under a minute."
+      footer={
+        <>
+          Already have an account? <Link to="/login">Log in</Link>
+        </>
+      }
+    >
+      <form className="auth-form" onSubmit={handleSubmit}>
+        {error && <p className="auth-error" role="alert">{error}</p>}
 
-        <div className="auth-card">
-          <div className="mobile-brand"><span className="brand-mark">P</span><span>Passly</span></div>
-          <div className="auth-heading">
-            <p className="eyebrow">Start somewhere good</p>
-            <h2>Create your account</h2>
-            <p>One account for every plan.</p>
-          </div>
-
-          <form className="auth-form" onSubmit={handleSubmit}>
-            {error && <p className="auth-error" role="alert">{error}</p>}
-
-            <div className="field-group">
-              <label htmlFor="signup-name">Name</label>
-              <input id="signup-name" type="text" value={name} onChange={(e) => setName(e.target.value)} required autoComplete="name" />
-            </div>
-
-            <div className="field-group">
-              <label htmlFor="signup-email">Email</label>
-              <input id="signup-email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required autoComplete="email" />
-            </div>
-
-            <div className="field-group">
-              <label htmlFor="signup-password">Password</label>
-              <div className="password-wrap">
-                <input id="signup-password" type={showPassword ? 'text' : 'password'} value={password} onChange={(e) => setPassword(e.target.value)} minLength={8} required autoComplete="new-password" />
-                <button className="password-toggle" type="button" onClick={() => setShowPassword((visible) => !visible)} aria-label={showPassword ? 'Hide password' : 'Show password'}>
-                  {showPassword ? 'Hide' : 'Show'}
-                </button>
-              </div>
-              <ul className="password-checklist" aria-label="Password requirements">
-                {requirements.map((requirement) => (
-                  <li className={requirement.valid ? 'is-valid' : ''} key={requirement.label}>
-                    <span aria-hidden="true">{requirement.valid ? '✓' : '○'}</span>{requirement.label}
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <button className={`auth-submit ${success ? 'is-success' : ''}`} type="submit" disabled={loading || success || !passwordValid}>
-              <span>{success ? 'Welcome to Passly' : loading ? 'Creating account…' : 'Create account'}</span>
-              <span aria-hidden="true">{success ? '✓' : '↗'}</span>
-            </button>
-
-            <p className="auth-switch">Already have an account? <Link to="/login">Log in</Link></p>
-          </form>
+        <div className="auth-field">
+          <label htmlFor="signup-name">Full name</label>
+          <input
+            id="signup-name"
+            type="text"
+            autoComplete="name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+          />
         </div>
-      </section>
-    </main>
+
+        <div className="auth-field">
+          <label htmlFor="signup-email">Email</label>
+          <input
+            id="signup-email"
+            type="email"
+            autoComplete="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+        </div>
+
+        <div className="auth-field">
+          <label htmlFor="signup-password">Password</label>
+          <input
+            id="signup-password"
+            type={showPassword ? 'text' : 'password'}
+            autoComplete="new-password"
+            minLength={8}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+          <button
+            type="button"
+            className="auth-toggle"
+            onClick={() => setShowPassword((current) => !current)}
+          >
+            {showPassword ? 'Hide' : 'Show'}
+          </button>
+        </div>
+
+        <ul className="auth-checks" aria-label="Password requirements">
+          {checks.map((check) => (
+            <li key={check.label} className={check.met ? 'is-met' : ''}>
+              <span className="auth-check" />
+              {check.label}
+            </li>
+          ))}
+        </ul>
+
+        <button className={buttonClass} type="submit" disabled={loading || done || !strong}>
+          <span>{done ? 'Account created' : loading ? 'Creating account' : 'Create account'}</span>
+        </button>
+      </form>
+    </AuthShell>
   );
 };
 

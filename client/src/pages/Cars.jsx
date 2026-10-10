@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './Listings.css';
+import './PagePatterns.css';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -41,11 +42,11 @@ const Cars = () => {
     setCars(filtered);
   };
 
-  if (loading) return <div className="container"><p>Loading...</p></div>;
-  if (error) return <div className="container"><p>{error}</p></div>;
+  if (loading) return <div className="container cars-page"><p>Loading...</p></div>;
+  if (error) return <div className="container cars-page"><p>{error}</p></div>;
 
   return (
-    <div className="container">
+    <div className="container cars-page">
       <section className="hero-section">
         <h1>Find your ride</h1>
         <p>Search available cars by location.</p>

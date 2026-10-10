@@ -2,6 +2,7 @@ import { useState, useEffect, useContext, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import { CartContext } from '../context/CartContext';
+import Logo from './Logo';
 import './Navbar.css';
 
 const Navbar = () => {
@@ -40,12 +41,15 @@ const Navbar = () => {
   return (
     <nav className={`navbar ${scrolled ? 'navbar-scrolled' : ''}`}>
       <div className="navbar-inner container">
-        <Link to="/" className="navbar-logo">Passly</Link>
+        <Link to="/" className="navbar-logo" aria-label="Passly home">
+          <Logo size={30} tone="light" />
+        </Link>
 
         <button
           className="navbar-hamburger"
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label="Toggle menu"
+          aria-expanded={menuOpen}
         >
           {menuOpen ? '✕' : '☰'}
         </button>

@@ -16,24 +16,44 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  min-width: 0;
   padding-top: 16px;
   padding-bottom: 16px;
 }
 
 .navbar-logo {
-  font-family: var(--font-heading);
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: #F0ECDF;
-  transition: color 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  line-height: 1;
+  transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
 .navbar-logo:hover {
-  color: var(--color-terracotta);
+  opacity: 0.86;
+  transform: translateY(-1px);
+}
+
+.navbar-logo .logo {
+  display: inline-flex;
+  align-items: center;
+}
+
+.navbar-logo .logo svg {
+  width: 30px;
+  height: 30px;
+}
+
+.navbar-logo .logo-name {
+  color: #F0ECDF;
+  font-family: var(--font-heading);
+  font-size: 1.32rem !important;
+  font-weight: 600;
 }
 
 .navbar-hamburger {
   display: none;
+  position: relative;
+  z-index: 201;
   font-size: 1.5rem;
   background: none;
   border: none;
@@ -153,6 +173,17 @@
   padding-top: 12px !important;
 }
 
+@media (max-width: 1024px) {
+  .navbar-links {
+    gap: 16px;
+    font-size: 0.88rem;
+  }
+
+  .navbar-logo .logo-name {
+    font-size: 1.2rem !important;
+  }
+}
+
 @media (max-width: 768px) {
   .navbar-hamburger {
     display: block;
@@ -174,5 +205,30 @@
 
   .navbar-links-open {
     display: flex;
+  }
+
+  .navbar-logo .logo svg {
+    width: 28px;
+    height: 28px;
+  }
+
+  .navbar-logo .logo-name {
+    font-size: 1.18rem !important;
+  }
+}
+
+@media (max-width: 360px) {
+  .navbar-inner {
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+
+  .navbar-logo .logo-name {
+    font-size: 1.05rem !important;
+  }
+
+  .navbar-logo .logo svg {
+    width: 25px;
+    height: 25px;
   }
 }
