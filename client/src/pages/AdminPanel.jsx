@@ -46,6 +46,8 @@ const AdminPanel = () => {
 
   const [users, setUsers] = useState([]);
   const [applications, setApplications] = useState([]);
+  const [events, setEvents] = useState([]);
+  const [eventsLoading, setEventsLoading] = useState(false);
   const [loading, setLoading] = useState(true);
   const [loaded, setLoaded] = useState(false);
   const [loadError, setLoadError] = useState('');
@@ -66,16 +68,19 @@ const AdminPanel = () => {
   const fetchAll = useCallback(async () => {
     try {
       const headers = { Authorization: `Bearer ${token}` };
-      const [usersRes, appsRes] = await Promise.all([
+      const [usersRes, appsRes, eventsRes] = await Promise.all([
         fetch(`${API_URL}/users`, { headers }),
         fetch(`${API_URL}/vendor-applications`, { headers }),
+        fetch(`${API_URL}/events`),
       ]);
 
       if (!usersRes.ok) throw new Error('We could not load the user list.');
       if (!appsRes.ok) throw new Error('We could not load the vendor applications.');
+      if (!eventsRes.ok) throw new Error('We could not load the event list.');
 
       setUsers(await usersRes.json());
       setApplications(await appsRes.json());
+      setEvents(await eventsRes.json());
       setLoaded(true);
       setLoadError('');
     } catch (err) {
@@ -157,6 +162,28 @@ const AdminPanel = () => {
     }
   };
 
+  const deleteEvent = async (event) => {
+    setDialogBusy(true);
+    setDialogError('');
+
+    try {
+      const res = await fetch(`${API_URL}/events/${event._id}`, {
+        method: 'DELETE',
+        headers: authHeaders,
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.message || 'Could not delete this event.');
+
+      showNotice('success', `${event.title} was deleted.`);
+      setDialog(null);
+      await fetchAll();
+    } catch (err) {
+      setDialogError(err.message);
+    } finally {
+      setDialogBusy(false);
+    }
+  };
+
   const openReview = (kind, app) => {
     setDialogNote('');
     setDialogError('');
@@ -169,6 +196,11 @@ const AdminPanel = () => {
     setDialogError('');
 
     try {
+      if (dialog.kind === 'event-delete') {
+        await deleteEvent(dialog.event);
+        return;
+      }
+
       if (dialog.kind === 'role') {
         await saveRole(dialog.user, dialog.newRole);
       } else {
@@ -222,6 +254,15 @@ const AdminPanel = () => {
 
   const dialogCopy = () => {
     if (!dialog) return null;
+
+    if (dialog.kind === 'event-delete') {
+      return {
+        title: 'Delete this event?',
+        message: `${dialog.event.title} will be permanently removed. Events with paid or pending bookings cannot be deleted and should be moved to draft instead.`,
+        confirm: 'Delete event',
+        danger: true,
+      };
+    }
 
     if (dialog.kind === 'approve') {
       return {
@@ -336,6 +377,15 @@ const AdminPanel = () => {
         <button
           type="button"
           role="tab"
+          aria-selected={tab === 'events'}
+          className={`admin-tab ${tab === 'events' ? 'active' : ''}`}
+          onClick={() => setTab('events')}
+        >
+          Events <span className="admin-tab-count">{events.length}</span>
+        </button>
+        <button
+          type="button"
+          role="tab"
           aria-selected={tab === 'users'}
           className={`admin-tab ${tab === 'users' ? 'active' : ''}`}
           onClick={() => setTab('users')}
@@ -431,6 +481,62 @@ const AdminPanel = () => {
                       </button>
                     </div>
                   )}
+                </article>
+              ))}
+            </div>
+          )}
+        </section>
+      )}
+
+      {tab === 'events' && (
+        <section className="admin-section" role="tabpanel">
+          <div className="admin-section-heading">
+            <div>
+              <h2>Published events</h2>
+              <p>Remove event uploads from the platform. Events with active bookings are protected.</p>
+            </div>
+            <span className="admin-pending-label">{events.length} listed</span>
+          </div>
+
+          {eventsLoading ? (
+            <div className="admin-empty-state"><p>Loading events...</p></div>
+          ) : events.length === 0 ? (
+            <div className="admin-empty-state">
+              <h3>No published events</h3>
+              <p>Published vendor events will appear here.</p>
+            </div>
+          ) : (
+            <div className="admin-app-list">
+              {events.map((event) => (
+                <article key={event._id} className="admin-app-card">
+                  <div className="admin-app-card-heading">
+                    <div className="admin-app-title">
+                      <h3>{event.title}</h3>
+                      <span className="admin-business-type">{event.category || 'Event'}</span>
+                    </div>
+                    <span className="admin-status-badge admin-status-approved">
+                      {event.status || 'published'}
+                    </span>
+                  </div>
+                  <div className="admin-applicant">
+                    <span>Venue</span>
+                    <strong>{event.venue || 'Venue not provided'}</strong>
+                  </div>
+                  <p className="admin-app-meta">
+                    Date: {formatDate(event.date)} · Tickets: {event.ticketTypes?.length || 0}
+                  </p>
+                  <div className="admin-app-actions">
+                    <button
+                      type="button"
+                      className="admin-dialog-confirm admin-dialog-confirm-danger"
+                      onClick={() => {
+                        setDialogError('');
+                        setDialog({ kind: 'event-delete', event });
+                      }}
+                    >
+                      Delete event
+                    </button>
+                  </div>
                 </article>
               ))}
             </div>
