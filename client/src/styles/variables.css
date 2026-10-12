@@ -78,3 +78,29 @@ footer,
 header {
   min-width: 0;
 }
+
+html,
+body,
+#root {
+  min-height: 100%;
+  margin: 0;
+}
+
+body {
+  min-height: 100vh;
+}
+
+.app-shell {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+.app-main {
+  flex: 1 0 auto;
+  min-width: 0;
+}
+
+.pf {
+  flex: 0 0 auto;
+}
