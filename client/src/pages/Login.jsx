@@ -62,6 +62,8 @@ const Login = () => {
           <input
             id="login-email"
             type="email"
+            inputMode="email"
+            autoCapitalize="none"
             autoComplete="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}

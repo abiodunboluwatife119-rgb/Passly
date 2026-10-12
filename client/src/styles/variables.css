@@ -34,3 +34,23 @@
   --shadow-lg: 0 8px 24px rgba(44, 37, 32, 0.14);
   --ease: 0.2s ease;
 }
+
+html,
+body,
+#root {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+img,
+video,
+svg {
+  max-width: 100%;
+}

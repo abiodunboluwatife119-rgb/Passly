@@ -4,6 +4,7 @@ import { AuthContext } from '../context/AuthContext';
 import AuthShell from '../components/AuthShell';
 
 const API_URL = import.meta.env.VITE_API_URL;
+const NAME_ALLOWED_CHARACTERS = /[^A-Za-zÀ-ÖØ-öø-ÿ' -]/g;
 
 const Signup = () => {
   const { signup } = useContext(AuthContext);
@@ -33,7 +34,7 @@ const Signup = () => {
       const res = await fetch(`${API_URL}/auth/signup`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, password }),
+        body: JSON.stringify({ name: name.trim(), email: email.trim(), password }),
       });
       const data = await res.json();
 
@@ -72,7 +73,9 @@ const Signup = () => {
             type="text"
             autoComplete="name"
             value={name}
-            onChange={(e) => setName(e.target.value)}
+            onChange={(e) => setName(e.target.value.replace(NAME_ALLOWED_CHARACTERS, ''))}
+            pattern="[A-Za-zÀ-ÖØ-öø-ÿ' -]+"
+            title="Use letters, spaces, apostrophes, or hyphens only."
             required
           />
         </div>
@@ -82,6 +85,8 @@ const Signup = () => {
           <input
             id="signup-email"
             type="email"
+            inputMode="email"
+            autoCapitalize="none"
             autoComplete="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
