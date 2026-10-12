@@ -40,6 +40,7 @@ body,
 #root {
   width: 100%;
   max-width: 100%;
+  min-width: 0;
   overflow-x: hidden;
 }
 
@@ -51,6 +52,29 @@ body,
 
 img,
 video,
-svg {
+svg,
+iframe,
+canvas {
+  display: block;
   max-width: 100%;
+}
+
+button,
+input,
+textarea,
+select {
+  max-width: 100%;
+}
+
+body {
+  overflow-wrap: break-word;
+}
+
+.container,
+main,
+section,
+nav,
+footer,
+header {
+  min-width: 0;
 }
