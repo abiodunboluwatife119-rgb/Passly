@@ -5,113 +5,142 @@
   isolation: isolate;
   min-height: 560px;
   overflow: hidden;
+  border-radius: 18px;
 }
 
 .events-page {
-  background-color: var(--color-background, #f0ecdf);
-  background-image:
-    radial-gradient(circle at 12% 18%, rgba(183, 92, 72, 0.055) 0 1.5px, transparent 2px),
-    radial-gradient(circle at 82% 72%, rgba(104, 31, 44, 0.045) 0 1.5px, transparent 2px),
-    linear-gradient(135deg, transparent 48%, rgba(104, 31, 44, 0.028) 49% 51%, transparent 52%);
-  background-position: 0 0, 18px 22px, 0 0;
-  background-size: 34px 34px, 46px 46px, 92px 92px;
+  background:
+    radial-gradient(circle at 78% 8%, rgba(231, 137, 105, 0.2), transparent 17rem),
+    radial-gradient(circle at 14% 72%, rgba(92, 26, 26, 0.1), transparent 20rem),
+    linear-gradient(140deg, #f6eee3 0%, #eadfd1 48%, #f0e7dc 100%);
 }
 
 .events-page::before,
-.events-page::after {
-  content: '';
-  position: absolute;
-  z-index: -1;
-  pointer-events: none;
-  border: 1px solid rgba(104, 31, 44, 0.045);
-  border-radius: 999px;
-}
-
-.events-page::before {
-  width: 260px;
-  height: 260px;
-  top: 120px;
-  right: -130px;
-}
-
-.events-page::after {
-  width: 180px;
-  height: 180px;
-  bottom: 50px;
-  left: -90px;
-}
-
-.cars-page {
-  background-color: #eeece5;
-  background-image:
-    repeating-linear-gradient(168deg, transparent 0 58px, rgba(57, 48, 43, 0.035) 59px 60px),
-    repeating-linear-gradient(168deg, transparent 0 118px, rgba(104, 31, 44, 0.028) 119px 120px),
-    radial-gradient(ellipse at 92% 28%, rgba(183, 92, 72, 0.05) 0 1px, transparent 2px);
-  background-position: 0 0, 34px 16px, 0 0;
-  background-size: 100% 100%, 100% 100%, 36px 36px;
-}
-
+.events-page::after,
 .cars-page::before,
-.cars-page::after {
-  content: '';
-  position: absolute;
-  z-index: -1;
-  pointer-events: none;
-  border: 1px solid rgba(57, 48, 43, 0.045);
-  border-radius: 50%;
-  transform: rotate(-14deg);
-}
-
-.cars-page::before {
-  width: 420px;
-  height: 150px;
-  top: 92px;
-  right: -170px;
-}
-
-.cars-page::after {
-  width: 300px;
-  height: 110px;
-  bottom: 80px;
-  left: -135px;
-}
-
-.restaurants-page {
-  background-color: #f3eadb;
-  background-image:
-    radial-gradient(circle at 16% 20%, transparent 0 24px, rgba(183, 92, 72, 0.045) 25px 26px, transparent 27px),
-    radial-gradient(circle at 82% 68%, transparent 0 38px, rgba(104, 31, 44, 0.038) 39px 40px, transparent 41px),
-    radial-gradient(ellipse at 50% 100%, rgba(183, 92, 72, 0.045), transparent 44%),
-    linear-gradient(118deg, transparent 0 47%, rgba(104, 31, 44, 0.022) 48% 48.5%, transparent 49%);
-  background-position: 0 0, 24px 16px, 0 0, 0 0;
-  background-size: 116px 116px, 178px 178px, 100% 100%, 84px 84px;
-}
-
+.cars-page::after,
 .restaurants-page::before,
 .restaurants-page::after {
   content: '';
   position: absolute;
   z-index: -1;
   pointer-events: none;
+}
+
+.events-page::before {
+  top: -7rem;
+  right: -6rem;
+  width: 26rem;
+  height: 26rem;
+  border: 1px solid rgba(92, 26, 26, 0.12);
   border-radius: 50%;
+  box-shadow:
+    0 0 0 22px rgba(92, 26, 26, 0.025),
+    0 0 0 44px rgba(92, 26, 26, 0.018);
+}
+
+.events-page::after {
+  left: 8%;
+  bottom: 8%;
+  width: 13rem;
+  height: 5rem;
+  border-top: 1px solid rgba(180, 90, 60, 0.18);
+  border-bottom: 1px solid rgba(180, 90, 60, 0.1);
+  transform: rotate(-18deg);
+  background: repeating-linear-gradient(90deg, transparent 0 18px, rgba(180, 90, 60, 0.08) 19px 20px);
+}
+
+.cars-page {
+  background:
+    linear-gradient(155deg, transparent 0 45%, rgba(44, 37, 32, 0.045) 45.2% 45.6%, transparent 45.8%),
+    linear-gradient(155deg, transparent 0 62%, rgba(92, 26, 26, 0.06) 62.2% 62.5%, transparent 62.7%),
+    radial-gradient(circle at 85% 12%, rgba(180, 90, 60, 0.16), transparent 18rem),
+    linear-gradient(145deg, #eef0ec 0%, #e6e5de 52%, #f1ede4 100%);
+}
+
+.cars-page::before {
+  top: -5rem;
+  right: -8rem;
+  width: 35rem;
+  height: 20rem;
+  border: 1px solid rgba(44, 37, 32, 0.1);
+  border-radius: 50%;
+  transform: rotate(-16deg);
+  box-shadow: 0 0 0 18px rgba(44, 37, 32, 0.018), 0 0 0 38px rgba(44, 37, 32, 0.012);
+}
+
+.cars-page::after {
+  left: -5rem;
+  bottom: 6%;
+  width: 27rem;
+  height: 9rem;
+  border-top: 1px solid rgba(92, 26, 26, 0.1);
+  border-bottom: 1px dashed rgba(92, 26, 26, 0.1);
+  transform: rotate(-12deg);
+  background: repeating-linear-gradient(90deg, transparent 0 46px, rgba(92, 26, 26, 0.07) 47px 48px);
+}
+
+.restaurants-page {
+  background:
+    radial-gradient(circle at 88% 10%, rgba(180, 90, 60, 0.18), transparent 16rem),
+    radial-gradient(circle at 8% 88%, rgba(92, 26, 26, 0.08), transparent 18rem),
+    linear-gradient(135deg, #f5ebdc 0%, #eee1cf 52%, #f7f0e6 100%);
 }
 
 .restaurants-page::before {
-  width: 340px;
-  height: 340px;
-  top: 48px;
-  right: -170px;
-  border: 1px solid rgba(183, 92, 72, 0.06);
-  box-shadow: inset 0 0 0 18px rgba(183, 92, 72, 0.018), inset 0 0 0 36px rgba(104, 31, 44, 0.014);
+  top: -7rem;
+  right: -7rem;
+  width: 27rem;
+  height: 27rem;
+  border: 1px solid rgba(180, 90, 60, 0.14);
+  border-radius: 50%;
+  box-shadow:
+    inset 0 0 0 18px rgba(180, 90, 60, 0.035),
+    inset 0 0 0 38px rgba(92, 26, 26, 0.025);
 }
 
 .restaurants-page::after {
-  width: 220px;
-  height: 220px;
-  bottom: 28px;
-  left: -110px;
-  border: 1px solid rgba(104, 31, 44, 0.045);
-  box-shadow: inset 0 0 0 12px rgba(104, 31, 44, 0.016), inset 0 0 0 25px rgba(183, 92, 72, 0.014);
+  left: 4%;
+  bottom: -8rem;
+  width: 24rem;
+  height: 24rem;
+  border: 1px solid rgba(92, 26, 26, 0.08);
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 15px rgba(92, 26, 26, 0.025), inset 0 0 0 32px rgba(180, 90, 60, 0.025);
+}
+
+.events-page .hero-section,
+.cars-page .hero-section,
+.restaurants-page .hero-section {
+  position: relative;
+  z-index: 1;
+  margin: 0 -1px;
+  padding: clamp(42px, 6vw, 72px) clamp(22px, 5vw, 64px) 38px;
+  border-bottom: 1px solid rgba(44, 37, 32, 0.08);
+  background: rgba(249, 247, 241, 0.42);
+}
+
+.events-page .results-section,
+.cars-page .results-section,
+.restaurants-page .results-section {
+  position: relative;
+  z-index: 1;
+  padding-left: clamp(18px, 4vw, 48px);
+  padding-right: clamp(18px, 4vw, 48px);
+}
+
+.events-page .card,
+.cars-page .card,
+.restaurants-page .card {
+  border: 1px solid rgba(44, 37, 32, 0.08);
+  background: rgba(249, 247, 241, 0.92);
+  box-shadow: 0 8px 22px rgba(44, 37, 32, 0.08);
+}
+
+.events-page .card:hover,
+.cars-page .card:hover,
+.restaurants-page .card:hover {
+  box-shadow: 0 14px 30px rgba(44, 37, 32, 0.14);
 }
 
 @media (max-width: 760px) {
@@ -119,17 +148,27 @@
   .cars-page,
   .restaurants-page {
     min-height: 620px;
+    border-radius: 14px;
   }
 
-  .events-page {
-    background-size: 28px 28px, 40px 40px, 78px 78px;
+  .events-page .hero-section,
+  .cars-page .hero-section,
+  .restaurants-page .hero-section {
+    padding: 36px 18px 28px;
   }
 
-  .cars-page {
-    background-size: 100% 100%, 100% 100%, 30px 30px;
+  .events-page .results-section,
+  .cars-page .results-section,
+  .restaurants-page .results-section {
+    padding-left: 16px;
+    padding-right: 16px;
   }
+}
 
-  .restaurants-page {
-    background-size: 96px 96px, 148px 148px, 100% 100%, 72px 72px;
+@media (prefers-reduced-motion: reduce) {
+  .events-page .card,
+  .cars-page .card,
+  .restaurants-page .card {
+    transition: none;
   }
 }

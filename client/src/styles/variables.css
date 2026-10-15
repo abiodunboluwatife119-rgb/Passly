@@ -35,6 +35,7 @@
   --ease: 0.2s ease;
 }
 
+/* Keep the application inside the viewport on phones. */
 html,
 body,
 #root {
@@ -44,12 +45,14 @@ body,
   overflow-x: hidden;
 }
 
+/* Prevent padding and borders from making elements wider than their parents. */
 *,
 *::before,
 *::after {
   box-sizing: border-box;
 }
 
+/* Keep media and form controls from creating horizontal overflow. */
 img,
 video,
 svg,
@@ -66,10 +69,12 @@ select {
   max-width: 100%;
 }
 
+/* Let long text wrap instead of widening the page. */
 body {
   overflow-wrap: break-word;
 }
 
+/* Shared layout children must be allowed to shrink inside grids and flex rows. */
 .container,
 main,
 section,
@@ -79,6 +84,7 @@ header {
   min-width: 0;
 }
 
+/* Keep the footer at the bottom on short pages without fixing it over content. */
 html,
 body,
 #root {
@@ -103,4 +109,60 @@ body {
 
 .pf {
   flex: 0 0 auto;
+}
+
+/* Shared type scale: keeps text readable across every Passly page. */
+:root {
+  --font-size-body: 1rem;
+  --font-size-small: 0.92rem;
+  --font-size-label: 0.88rem;
+  --line-height-body: 1.6;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-black);
+  font-family: var(--font-body);
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+p,
+li,
+label,
+button,
+input,
+textarea,
+select {
+  font-size: var(--font-size-body);
+}
+
+p,
+li {
+  line-height: var(--line-height-body);
+}
+
+small {
+  font-size: var(--font-size-small);
+}
+
+label {
+  line-height: 1.4;
+}
+
+@media (max-width: 640px) {
+  :root {
+    --font-size-body: 1rem;
+    --font-size-small: 0.9rem;
+    --font-size-label: 0.86rem;
+  }
 }

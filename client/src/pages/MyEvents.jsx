@@ -59,6 +59,7 @@ const MyEvents = () => {
     } catch (err) {
       setError(err.message);
     } finally {
+      await new Promise((resolve) => setTimeout(resolve, 1000));
       setLoading(false);
     }
   };

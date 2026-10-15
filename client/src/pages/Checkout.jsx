@@ -204,7 +204,7 @@ const Checkout = () => {
             aria-busy={placing}
             aria-live="polite"
           >
-            {placing ? 'Placing order...' : `Place order · ${naira(total)}`}
+            {placing ? 'Processing order...' : `Place order · ${naira(total)}`}
           </button>
 
           <Link to="/cart" className="bag-continue">

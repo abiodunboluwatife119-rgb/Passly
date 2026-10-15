@@ -65,6 +65,7 @@ const CarDetail = () => {
       } catch (err) {
         setError(err.message || 'Something went wrong. Please try again.');
       } finally {
+        await new Promise((resolve) => setTimeout(resolve, 1000));
         setLoading(false);
       }
     };

@@ -8,11 +8,18 @@ import carImage from '../assets/car.jpg';
 import eventsImage from '../assets/events.jpg';
 import foodImage from '../assets/food.jpg';
 import heroVideo from '../assets/hero.mp4';
+import restaurantVideo from '../assets/restaurant.mp4';
+import eventsVideo from '../assets/event.mp4';
 
 const API_URL = import.meta.env.VITE_API_URL;
 const DAY_MS = 86400000;
 const ROTATING_WORDS = ['everything.', 'the night.', 'the road.', 'the table.'];
 const MENU_RESTAURANT_LIMIT = 6;
+const HERO_VIDEOS = [
+  { src: heroVideo, label: 'Passly', caption: 'One pass for your next outing.' },
+  { src: restaurantVideo, label: 'Restaurants', caption: 'Good food, good company.' },
+  { src: eventsVideo, label: 'Events & shows', caption: 'Find your next night out.' },
+];
 
 const HOW_STEPS = {
   customers: [
@@ -255,6 +262,16 @@ const Home = () => {
   const [query, setQuery] = useState('');
   const [days, setDays] = useState(3);
   const [audience, setAudience] = useState('customers');
+  const [heroVideoIndex, setHeroVideoIndex] = useState(0);
+  const heroReducedMotion = usePrefersReducedMotion();
+
+  useEffect(() => {
+    if (heroReducedMotion) return undefined;
+    const timer = setInterval(() => {
+      setHeroVideoIndex((current) => (current + 1) % HERO_VIDEOS.length);
+    }, 6500);
+    return () => clearInterval(timer);
+  }, [heroReducedMotion]);
 
   const loadListings = useCallback(async () => {
     try {
@@ -445,23 +462,49 @@ const Home = () => {
 
   return (
     <div className="container home">
-      <section className="home-hero">
+      <section className="home-hero home-hero-b" aria-labelledby="home-hero-title">
         <div className="home-hero-content">
-          <p className="home-hero-eyebrow">Events · Cars · Food</p>
-          <h1 aria-label="Your pass to everything.">
-            Your pass to <Rotator words={ROTATING_WORDS} />
-          </h1>
-          <p>Book events, rent cars, and order food in one place.</p>
+          <p className="home-hero-eyebrow">Your next outing, in one pass</p>
+          <h1 id="home-hero-title">Everything for your next outing.</h1>
+          <p>Discover events, rent a car, and order food without the runaround.</p>
+          <div className="home-hero-trust" aria-label="Passly benefits">
+            <span>One account</span>
+            <span>One booking history</span>
+            <span>One pass</span>
+          </div>
         </div>
-        <video
-          className="home-hero-video"
-          controls
-          autoPlay
-          loop
-          muted
-          playsInline
-          src={heroVideo}
-        />
+
+        <div className="home-hero-visual" aria-label="Passly events, restaurants, and shows">
+          <div className="hero-video-carousel">
+            {HERO_VIDEOS.map((video, index) => (
+              <div
+                key={video.label}
+                className={`hero-video-slide ${index === heroVideoIndex ? 'is-active' : ''}`}
+                aria-hidden={index !== heroVideoIndex}
+              >
+                <video
+                  className="hero-carousel-video"
+                  autoPlay={index === heroVideoIndex}
+                  loop
+                  muted
+                  playsInline
+                  preload={index === heroVideoIndex ? 'auto' : 'metadata'}
+                  src={video.src}
+                  onEnded={() => setHeroVideoIndex((current) => (current + 1) % HERO_VIDEOS.length)}
+                />
+                <div className="hero-video-caption">
+                  <span>{video.label}</span>
+                  <strong>{video.caption}</strong>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="hero-video-progress" aria-hidden="true">
+            {HERO_VIDEOS.map((video, index) => (
+              <span key={video.label} className={index === heroVideoIndex ? 'is-active' : ''} />
+            ))}
+          </div>
+        </div>
       </section>
 
       {user && (

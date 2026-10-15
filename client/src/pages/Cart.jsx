@@ -16,7 +16,7 @@ const Cart = () => {
     setTimeout(() => {
       updateQty(itemId, nextQty);
       setUpdatingItem(null);
-    }, 300);
+    }, 600);
   };
 
   const handleRemove = (itemId) => {
@@ -24,7 +24,7 @@ const Cart = () => {
     setTimeout(() => {
       removeFromCart(itemId);
       setUpdatingItem(null);
-    }, 300);
+    }, 600);
   };
 
   const handleCheckout = () => {

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import VendorSales from '../components/VendorSales';
 import './Dashboard.css';
+import './DashboardActions.css';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -67,6 +68,7 @@ const Dashboard = () => {
     } catch (fetchError) {
       setError(fetchError.message);
     } finally {
+      await new Promise((resolve) => setTimeout(resolve, 1000));
       setLoading(false);
     }
   }, [token]);
@@ -325,29 +327,42 @@ const Dashboard = () => {
             </section>
           </div>
 
-          <nav className="dashboard-nav" aria-label="Manage your listings">
-            <Link to="/dashboard/events" className="dashboard-nav-card">
-              <span className="dashboard-card-index">01</span>
-              <span className="dashboard-nav-copy">
-                <strong>Events</strong>
-                <span>Create events, set ticket options, and update event details.</span>
-              </span>
-            </Link>
-            <Link to="/dashboard/cars" className="dashboard-nav-card">
-              <span className="dashboard-card-index">02</span>
-              <span className="dashboard-nav-copy">
-                <strong>Cars</strong>
-                <span>Manage your vehicles, rental prices, and availability details.</span>
-              </span>
-            </Link>
-            <Link to="/dashboard/restaurants" className="dashboard-nav-card">
-              <span className="dashboard-card-index">03</span>
-              <span className="dashboard-nav-copy">
-                <strong>Restaurants</strong>
-                <span>Update restaurant details and manage your food menu.</span>
-              </span>
-            </Link>
-          </nav>
+          <section className="dashboard-create-section" aria-labelledby="dashboard-create-title">
+            <div className="dashboard-create-heading">
+              <div>
+                <p className="dashboard-eyebrow">ADD TO PASSLY</p>
+                <h2 id="dashboard-create-title">What would you like to add?</h2>
+              </div>
+              <p>Create a new listing for your Passly page.</p>
+            </div>
+
+            <nav className="dashboard-create-grid" aria-label="Create a listing">
+              <Link to="/dashboard/events" className="dashboard-create-card dashboard-create-event">
+                <span className="dashboard-create-plus" aria-hidden="true">+</span>
+                <span className="dashboard-create-copy">
+                  <strong>Create an event</strong>
+                  <span>Add a concert, comedy show, festival, or other experience.</span>
+                </span>
+                <span className="dashboard-create-arrow" aria-hidden="true">↗</span>
+              </Link>
+              <Link to="/dashboard/cars" className="dashboard-create-card dashboard-create-car">
+                <span className="dashboard-create-plus" aria-hidden="true">+</span>
+                <span className="dashboard-create-copy">
+                  <strong>Add a car</strong>
+                  <span>List a car with its price, location, photos, and availability.</span>
+                </span>
+                <span className="dashboard-create-arrow" aria-hidden="true">↗</span>
+              </Link>
+              <Link to="/dashboard/restaurants" className="dashboard-create-card dashboard-create-restaurant">
+                <span className="dashboard-create-plus" aria-hidden="true">+</span>
+                <span className="dashboard-create-copy">
+                  <strong>Add a restaurant</strong>
+                  <span>Set up your restaurant and add the dishes on your menu.</span>
+                </span>
+                <span className="dashboard-create-arrow" aria-hidden="true">↗</span>
+              </Link>
+            </nav>
+          </section>
 
           <section className="dashboard-recent" aria-labelledby="dashboard-recent-title">
             <div className="dashboard-recent-heading">

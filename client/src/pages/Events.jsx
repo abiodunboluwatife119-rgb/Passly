@@ -35,7 +35,7 @@ const Events = () => {
     setSearching(true);
     setSearched(true);
 
-    await new Promise((resolve) => setTimeout(resolve, 700));
+    await new Promise((resolve) => setTimeout(resolve, 1000));
 
     if (!categoryFilter.trim()) {
       setEvents(allEvents);
