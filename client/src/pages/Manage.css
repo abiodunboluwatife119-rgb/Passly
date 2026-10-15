@@ -233,3 +233,618 @@
   background-color: var(--color-error);
   opacity: 0.9;
 }
+
+
+.restaurant-card {
+  position: relative;
+  overflow: hidden;
+  padding: 0;
+  border: 1px solid rgba(44, 37, 32, 0.12);
+  border-radius: 14px;
+  background: var(--color-surface);
+  box-shadow: 0 8px 22px rgba(44, 37, 32, 0.07);
+  transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+}
+
+.restaurant-card:hover {
+  border-color: rgba(92, 26, 26, 0.28);
+  box-shadow: 0 14px 30px rgba(44, 37, 32, 0.11);
+  transform: translateY(-2px);
+}
+
+.restaurant-card-media {
+  position: relative;
+  height: 138px;
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--color-accent), var(--color-terracotta));
+}
+
+.restaurant-card-media::after {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 35%, rgba(44, 37, 32, 0.46));
+  content: '';
+}
+
+.restaurant-card-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 300ms ease;
+}
+
+.restaurant-card:hover .restaurant-card-media img {
+  transform: scale(1.035);
+}
+
+.restaurant-card-media-empty {
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, var(--color-accent), #8f4937);
+}
+
+.restaurant-card-media-empty span {
+  position: relative;
+  z-index: 1;
+  color: var(--color-surface);
+  font-family: var(--font-heading);
+  font-size: 3.2rem;
+}
+
+.restaurant-card-kicker {
+  position: absolute;
+  z-index: 1;
+  bottom: 14px;
+  left: 18px;
+  color: var(--color-surface);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.restaurant-card-body {
+  padding: 18px;
+}
+
+.restaurant-card-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.restaurant-card-eyebrow {
+  margin: 0 0 4px;
+  color: var(--color-terracotta);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.restaurant-card-heading h3 {
+  margin: 0;
+  color: var(--color-black);
+  font-family: var(--font-heading);
+  font-size: 1.2rem;
+  line-height: 1.2;
+}
+
+.restaurant-card-location {
+  flex: 0 0 auto;
+  max-width: 42%;
+  padding: 5px 8px;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  color: var(--color-text-muted);
+  font-size: 0.68rem;
+  line-height: 1.2;
+  text-align: right;
+}
+
+.restaurant-card-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 15px;
+  padding-bottom: 13px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.restaurant-card-summary .dashboard-status {
+  margin: 0;
+}
+
+.restaurant-card-summary-label {
+  color: var(--color-text-secondary);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.restaurant-menu-list {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  margin-top: 13px;
+}
+
+.restaurant-menu-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 58px;
+  padding: 7px;
+  border: 1px solid transparent;
+  border-radius: 9px;
+  background: var(--color-surface-warm);
+  transition: border-color 160ms ease, background-color 160ms ease;
+}
+
+.restaurant-menu-row:hover {
+  border-color: var(--color-border-hover);
+  background: var(--color-surface);
+}
+
+.restaurant-menu-thumb {
+  flex: 0 0 44px;
+  width: 44px;
+  height: 44px;
+  border-radius: 7px;
+  object-fit: cover;
+}
+
+.restaurant-menu-thumb-empty {
+  display: grid;
+  place-items: center;
+  background: var(--color-terracotta-light);
+  color: var(--color-accent);
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+}
+
+.restaurant-menu-copy {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.restaurant-menu-copy strong {
+  overflow: hidden;
+  color: var(--color-black);
+  font-size: 0.84rem;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.restaurant-menu-price {
+  color: var(--color-terracotta);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+}
+
+.restaurant-menu-copy .menu-hidden-tag {
+  align-self: flex-start;
+  margin: 2px 0 0;
+}
+
+.restaurant-menu-row .menu-item-actions {
+  flex: 0 0 auto;
+}
+
+.restaurant-add-menu-btn {
+  width: 100%;
+  margin-top: 13px;
+  border-style: dashed;
+}
+
+.restaurant-card-actions {
+  margin-top: 17px;
+  padding-top: 15px;
+}
+
+@media (max-width: 640px) {
+  .restaurant-card-body {
+    padding: 15px;
+  }
+
+  .restaurant-card-heading h3 {
+    font-size: 1.08rem;
+  }
+
+  .restaurant-card-location {
+    max-width: 45%;
+  }
+
+  .restaurant-menu-row .menu-item-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 3px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .restaurant-card,
+  .restaurant-card-media img {
+    transition: none;
+  }
+}
+
+.vehicle-card {
+  overflow: hidden;
+  padding: 0;
+  border: 1px solid rgba(44, 37, 32, 0.12);
+  border-radius: 14px;
+  background: var(--color-surface);
+  box-shadow: 0 8px 22px rgba(44, 37, 32, 0.07);
+  transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+}
+
+.vehicle-card:hover {
+  border-color: rgba(92, 26, 26, 0.28);
+  box-shadow: 0 14px 30px rgba(44, 37, 32, 0.11);
+  transform: translateY(-2px);
+}
+
+.vehicle-card-media {
+  position: relative;
+  height: 154px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #342e2a, var(--color-terracotta));
+}
+
+.vehicle-card-media::after {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 35%, rgba(44, 37, 32, 0.48));
+  content: '';
+}
+
+.vehicle-card-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 300ms ease;
+}
+
+.vehicle-card:hover .vehicle-card-media img {
+  transform: scale(1.035);
+}
+
+.vehicle-card-media-empty {
+  display: grid;
+  place-items: center;
+}
+
+.vehicle-card-media-empty span {
+  position: relative;
+  z-index: 1;
+  color: var(--color-surface);
+  font-family: var(--font-heading);
+  font-size: 3.4rem;
+}
+
+.vehicle-card-year {
+  position: absolute;
+  z-index: 1;
+  right: 16px;
+  bottom: 14px;
+  padding: 5px 9px;
+  border: 1px solid rgba(249, 247, 241, 0.4);
+  border-radius: 999px;
+  color: var(--color-surface);
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.vehicle-card-body {
+  padding: 18px;
+}
+
+.vehicle-card-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.vehicle-card-heading h3 {
+  margin: 0;
+  color: var(--color-black);
+  font-family: var(--font-heading);
+  font-size: 1.2rem;
+  line-height: 1.2;
+}
+
+.vehicle-card-eyebrow {
+  margin: 0 0 4px;
+  color: var(--color-terracotta);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.vehicle-card-heading .dashboard-status {
+  flex: 0 0 auto;
+  margin: 0;
+}
+
+.vehicle-card-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 15px;
+  padding: 12px 0;
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+  font-size: 0.82rem;
+}
+
+.vehicle-card-meta strong {
+  color: var(--color-accent);
+  font-family: var(--font-mono);
+  font-size: 0.88rem;
+}
+
+.vehicle-card-meta small {
+  color: var(--color-text-muted);
+  font-family: var(--font-body);
+  font-size: 0.68rem;
+}
+
+.vehicle-card-specs {
+  display: flex;
+  gap: 7px;
+  margin-top: 13px;
+}
+
+.vehicle-card-specs span {
+  padding: 5px 8px;
+  border-radius: 999px;
+  background: var(--color-surface-warm);
+  color: var(--color-text-muted);
+  font-size: 0.7rem;
+}
+
+.vehicle-card-actions {
+  margin-top: 16px;
+}
+
+@media (max-width: 640px) {
+  .vehicle-card-body {
+    padding: 15px;
+  }
+
+  .vehicle-card-heading h3 {
+    font-size: 1.08rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vehicle-card,
+  .vehicle-card-media img {
+    transition: none;
+  }
+}
+
+.dashboard-form .ticket-row {
+  flex-wrap: wrap;
+}
+
+.dashboard-form .ticket-row input {
+  flex: 1 1 90px;
+  min-width: 0;
+}
+
+.ticket-sold {
+  padding: 4px 10px;
+  border-radius: 999px;
+  background-color: var(--color-success-light);
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+  color: var(--color-success);
+}
+
+.item-tickets {
+  display: grid;
+  gap: 6px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--color-border);
+  font-size: 0.84rem;
+  list-style: none;
+}
+
+.item-tickets li {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  color: var(--color-text-muted);
+}
+
+.item-tickets li span:first-child {
+  font-weight: 600;
+  color: var(--color-black);
+}
+
+.event-past-tag {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background-color: var(--color-border);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.event-card {
+  overflow: hidden;
+  padding: 0;
+  border: 1px solid rgba(44, 37, 32, 0.12);
+  border-radius: 14px;
+  background: var(--color-surface);
+  box-shadow: 0 8px 22px rgba(44, 37, 32, 0.07);
+  transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+}
+
+.event-card:hover {
+  border-color: rgba(92, 26, 26, 0.28);
+  box-shadow: 0 14px 30px rgba(44, 37, 32, 0.11);
+  transform: translateY(-2px);
+}
+
+.event-card-media {
+  position: relative;
+  height: 144px;
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--color-accent), var(--color-terracotta));
+}
+
+.event-card-media::after {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 35%, rgba(44, 37, 32, 0.5));
+  content: '';
+}
+
+.event-card-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 300ms ease;
+}
+
+.event-card:hover .event-card-media img {
+  transform: scale(1.035);
+}
+
+.event-card-media-empty {
+  display: grid;
+  place-items: center;
+}
+
+.event-card-media-empty span {
+  position: relative;
+  z-index: 1;
+  color: var(--color-surface);
+  font-family: var(--font-heading);
+  font-size: 3.4rem;
+}
+
+.event-card-category {
+  position: absolute;
+  z-index: 1;
+  bottom: 14px;
+  left: 17px;
+  color: var(--color-surface);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.event-card-body {
+  padding: 18px;
+}
+
+.event-card-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.event-card-heading h3 {
+  margin: 0;
+  color: var(--color-black);
+  font-family: var(--font-heading);
+  font-size: 1.2rem;
+  line-height: 1.2;
+}
+
+.event-card-eyebrow {
+  margin: 0 0 4px;
+  color: var(--color-terracotta);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.event-card-heading .dashboard-status {
+  flex: 0 0 auto;
+  margin: 0;
+}
+
+.event-card-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 15px;
+  padding: 12px 0;
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+  font-size: 0.8rem;
+}
+
+.event-card-meta span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.event-card-meta strong {
+  flex: 0 0 auto;
+  color: var(--color-accent);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+}
+
+.event-ticket-list {
+  margin-top: 13px;
+}
+
+.event-ticket-list li span:last-child {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+}
+
+.event-card .event-past-tag {
+  margin-top: 11px;
+  margin-left: 0;
+}
+
+.event-card-actions {
+  margin-top: 16px;
+}
+
+@media (max-width: 640px) {
+  .event-card-body {
+    padding: 15px;
+  }
+
+  .event-card-heading h3 {
+    font-size: 1.08rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .event-card,
+  .event-card-media img {
+    transition: none;
+  }
+}

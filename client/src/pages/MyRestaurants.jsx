@@ -357,26 +357,48 @@ const MyRestaurants = () => {
       ) : (
         <div className="dashboard-item-grid">
           {restaurants.map((restaurant) => (
-            <div key={restaurant._id} className="dashboard-item-card">
-              {restaurant.images?.[0] && (
-                <img src={restaurant.images[0]} alt={restaurant.name} />
+            <article key={restaurant._id} className="dashboard-item-card restaurant-card">
+              {restaurant.images?.[0] ? (
+                <div className="restaurant-card-media">
+                  <img src={restaurant.images[0]} alt={restaurant.name} />
+                  <span className="restaurant-card-kicker">{restaurant.cuisine}</span>
+                </div>
+              ) : (
+                <div className="restaurant-card-media restaurant-card-media-empty" aria-hidden="true">
+                  <span>{restaurant.name.charAt(0).toUpperCase()}</span>
+                </div>
               )}
-              <div className="dashboard-item-body">
-                <h3>{restaurant.name}</h3>
-                <p>{restaurant.cuisine} — {restaurant.location}</p>
+              <div className="dashboard-item-body restaurant-card-body">
+                <div className="restaurant-card-heading">
+                  <div>
+                    <p className="restaurant-card-eyebrow">{restaurant.cuisine}</p>
+                    <h3>{restaurant.name}</h3>
+                  </div>
+                  <span className="restaurant-card-location">{restaurant.location}</span>
+                </div>
                 {restaurant.description && <p className="item-desc">{restaurant.description}</p>}
-                <span className="dashboard-status dashboard-status-neutral">
-                  {restaurant.menuItems.length} {restaurant.menuItems.length === 1 ? 'menu item' : 'menu items'}
-                </span>
+                <div className="restaurant-card-summary">
+                  <span className="dashboard-status dashboard-status-neutral">
+                    {restaurant.menuItems.length} {restaurant.menuItems.length === 1 ? 'menu item' : 'menu items'}
+                  </span>
+                  <span className="restaurant-card-summary-label">Menu</span>
+                </div>
 
                 {restaurant.menuItems.length > 0 && (
-                  <div className="dashboard-menu-list">
+                  <div className="dashboard-menu-list restaurant-menu-list">
                     {restaurant.menuItems.map((item) => (
                       <Fragment key={item._id}>
-                        <div className="dashboard-menu-item">
-                          {item.image && <img src={item.image} alt={item.name} />}
-                          <span className="menu-item-label">
-                            {item.name} — ₦{item.price.toLocaleString()}
+                        <div className="dashboard-menu-item restaurant-menu-row">
+                          {item.image ? (
+                            <img className="restaurant-menu-thumb" src={item.image} alt="" />
+                          ) : (
+                            <span className="restaurant-menu-thumb restaurant-menu-thumb-empty" aria-hidden="true">
+                              {item.name.charAt(0).toUpperCase()}
+                            </span>
+                          )}
+                          <span className="menu-item-label restaurant-menu-copy">
+                            <strong>{item.name}</strong>
+                            <span className="restaurant-menu-price">₦{item.price.toLocaleString()}</span>
                             {item.available === false && (
                               <em className="menu-hidden-tag">Hidden</em>
                             )}
@@ -457,7 +479,7 @@ const MyRestaurants = () => {
                 )}
 
                 <button
-                  className="dashboard-menu-form-btn"
+                  className="dashboard-menu-form-btn restaurant-add-menu-btn"
                   onClick={() => toggleMenuForm(restaurant._id)}
                 >
                   {menuForms[restaurant._id] ? 'Cancel' : '+ Add Menu Item'}
@@ -503,7 +525,7 @@ const MyRestaurants = () => {
                   </form>
                 )}
 
-                <div className="manage-actions">
+                <div className="manage-actions restaurant-card-actions">
                   <button type="button" className="manage-btn" onClick={() => startEdit(restaurant)}>
                     Edit restaurant
                   </button>
@@ -518,7 +540,7 @@ const MyRestaurants = () => {
                   </button>
                 </div>
               </div>
-            </div>
+            </article>
           ))}
         </div>
       )}

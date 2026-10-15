@@ -306,17 +306,38 @@ const MyCars = () => {
       ) : (
         <div className="dashboard-item-grid">
           {cars.map((car) => (
-            <div key={car._id} className="dashboard-item-card">
-              {car.images?.[0] && <img src={car.images[0]} alt={`${car.make} ${car.model}`} />}
-              <div className="dashboard-item-body">
-                <h3>{car.make} {car.model} ({car.year})</h3>
-                <p>{car.location} — ₦{car.pricePerDay.toLocaleString()}/day</p>
+            <article key={car._id} className="dashboard-item-card vehicle-card">
+              {car.images?.[0] ? (
+                <div className="vehicle-card-media">
+                  <img src={car.images[0]} alt={`${car.make} ${car.model}`} />
+                  <span className="vehicle-card-year">{car.year}</span>
+                </div>
+              ) : (
+                <div className="vehicle-card-media vehicle-card-media-empty" aria-hidden="true">
+                  <span>{car.make.charAt(0).toUpperCase()}</span>
+                </div>
+              )}
+              <div className="dashboard-item-body vehicle-card-body">
+                <div className="vehicle-card-heading">
+                  <div>
+                    <p className="vehicle-card-eyebrow">{car.transmission} transmission</p>
+                    <h3>{car.make} {car.model}</h3>
+                  </div>
+                  <span className={`dashboard-status ${car.available ? 'dashboard-status-available' : 'dashboard-status-unavailable'}`}>
+                    {car.available ? 'Available' : 'Unavailable'}
+                  </span>
+                </div>
+                <div className="vehicle-card-meta">
+                  <span>{car.location}</span>
+                  <strong>₦{car.pricePerDay.toLocaleString()}<small>/day</small></strong>
+                </div>
                 {car.description && <p className="item-desc">{car.description}</p>}
-                <span className={`dashboard-status ${car.available ? 'dashboard-status-available' : 'dashboard-status-unavailable'}`}>
-                  {car.available ? 'Available' : 'Unavailable'}
-                </span>
+                <div className="vehicle-card-specs">
+                  <span>{car.seats} seats</span>
+                  <span>{car.transmission}</span>
+                </div>
 
-                <div className="manage-actions">
+                <div className="manage-actions vehicle-card-actions">
                   <button type="button" className="manage-btn" onClick={() => startEdit(car)}>
                     Edit
                   </button>
@@ -337,7 +358,7 @@ const MyCars = () => {
                   </button>
                 </div>
               </div>
-            </div>
+            </article>
           ))}
         </div>
       )}

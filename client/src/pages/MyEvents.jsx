@@ -370,18 +370,35 @@ const MyEvents = () => {
           {events.map((event) => {
             const isPast = new Date(event.date) < today;
             return (
-              <div key={event._id} className="dashboard-item-card">
-                {event.images?.[0] && <img src={event.images[0]} alt={event.title} />}
-                <div className="dashboard-item-body">
-                  <h3>{event.title}</h3>
-                  <p>{event.venue?.trim()} — {formatDate(event.date)}</p>
-                  <span className={`dashboard-status dashboard-status-${event.status}`}>
-                    {event.status}
-                  </span>
+              <article key={event._id} className="dashboard-item-card event-card">
+                {event.images?.[0] ? (
+                  <div className="event-card-media">
+                    <img src={event.images[0]} alt={event.title} />
+                    <span className="event-card-category">{event.category}</span>
+                  </div>
+                ) : (
+                  <div className="event-card-media event-card-media-empty" aria-hidden="true">
+                    <span>{event.title.charAt(0).toUpperCase()}</span>
+                  </div>
+                )}
+                <div className="dashboard-item-body event-card-body">
+                  <div className="event-card-heading">
+                    <div>
+                      <p className="event-card-eyebrow">{event.category || 'Event'}</p>
+                      <h3>{event.title}</h3>
+                    </div>
+                    <span className={`dashboard-status dashboard-status-${event.status}`}>
+                      {event.status}
+                    </span>
+                  </div>
+                  <div className="event-card-meta">
+                    <span>{event.venue?.trim()}</span>
+                    <strong>{formatDate(event.date)}</strong>
+                  </div>
                   {isPast && <span className="event-past-tag">Ended</span>}
 
                   {event.ticketTypes?.length > 0 && (
-                    <ul className="item-tickets">
+                    <ul className="item-tickets event-ticket-list">
                       {event.ticketTypes.map((ticket) => (
                         <li key={ticket._id}>
                           <span>{ticket.name}</span>
@@ -393,7 +410,7 @@ const MyEvents = () => {
                     </ul>
                   )}
 
-                  <div className="manage-actions">
+                  <div className="manage-actions event-card-actions">
                     <button type="button" className="manage-btn" onClick={() => startEdit(event)}>
                       Edit
                     </button>
@@ -414,7 +431,7 @@ const MyEvents = () => {
                     </button>
                   </div>
                 </div>
-              </div>
+              </article>
             );
           })}
         </div>
