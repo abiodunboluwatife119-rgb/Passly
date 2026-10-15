@@ -15,8 +15,9 @@ const STATUS_COPY = {
 };
 
 const TicketSkeleton = () => (
-  <div className="container ticket-page" aria-busy="true" aria-label="Loading ticket">
-    <div className="bk-skeleton tk-skeleton" />
+  <div className="container ticket-page">
+    <p role="status" aria-live="polite">Fetching details...</p>
+    <div className="bk-skeleton tk-skeleton" aria-busy="true" aria-label="Fetching ticket details" />
   </div>
 );
 

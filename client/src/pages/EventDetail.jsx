@@ -16,7 +16,8 @@ const formatDate = (d) =>
 
 const DetailSkeleton = () => (
   <div className="container">
-    <div className="detail-layout" aria-busy="true" aria-label="Loading event">
+    <p role="status" aria-live="polite">Fetching details...</p>
+    <div className="detail-layout" aria-busy="true" aria-label="Fetching details">
       <div>
         <div className="skeleton skeleton-image" />
         <div className="skeleton skeleton-line skeleton-title" />

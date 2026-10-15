@@ -67,7 +67,7 @@ const Checkout = () => {
 
   if (items.length === 0) {
     return (
-      <div className="container">
+      <div className="container bag-page checkout-page">
         <div className="bag-empty">
           <div className="bag-empty-mark" aria-hidden="true">🍽</div>
           <h1>Nothing to check out</h1>
@@ -80,7 +80,7 @@ const Checkout = () => {
 
   if (!token) {
     return (
-      <div className="container">
+      <div className="container bag-page checkout-page">
         <div className="bag-empty">
           <div className="bag-empty-mark" aria-hidden="true">🔒</div>
           <h1>Log in to place your order</h1>
@@ -95,7 +95,7 @@ const Checkout = () => {
   const restaurantName = items[0].restaurantName;
 
   return (
-    <div className="container">
+    <div className="container bag-page checkout-page">
       <header className="bag-header">
         <Link to="/cart" className="detail-back checkout-back">← Back to cart</Link>
         <h1>Checkout</h1>
@@ -105,7 +105,7 @@ const Checkout = () => {
       </header>
 
       <div className="bag-layout">
-        <div>
+        <div className="checkout-main">
           <section className="checkout-section">
             <h2>How would you like your order?</h2>
 
@@ -177,7 +177,7 @@ const Checkout = () => {
           </section>
         </div>
 
-        <aside className="bag-summary">
+        <aside className="bag-summary checkout-summary">
           <h3>Order summary</h3>
 
           <ul className="checkout-lines">
@@ -201,6 +201,8 @@ const Checkout = () => {
             className="bag-checkout"
             onClick={handlePlaceOrder}
             disabled={placing}
+            aria-busy={placing}
+            aria-live="polite"
           >
             {placing ? 'Placing order...' : `Place order · ${naira(total)}`}
           </button>

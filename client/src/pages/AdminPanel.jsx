@@ -301,7 +301,8 @@ const AdminPanel = () => {
 
   if (loading) {
     return (
-      <div className="container admin-page" aria-busy="true" aria-label="Loading admin panel">
+      <div className="container admin-page" aria-busy="true" aria-label="Fetching admin details">
+        <p role="status" aria-live="polite">Fetching details...</p>
         <div className="admin-skeleton admin-skeleton-header" />
         <div className="admin-skeleton admin-skeleton-metrics" />
         <div className="admin-skeleton admin-skeleton-list" />

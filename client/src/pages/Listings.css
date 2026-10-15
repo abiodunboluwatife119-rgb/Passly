@@ -43,15 +43,42 @@
   border-radius: var(--radius);
   font-size: 0.95rem;
   font-weight: 600;
-  transition: background-color 0.2s ease;
+  transition: background-color 0.2s ease, opacity 0.2s ease;
 }
 
-.search-form button:hover {
+.search-form button:hover:not(:disabled) {
   background-color: var(--color-terracotta);
 }
 
 .search-form button:disabled {
   opacity: 0.6;
+  cursor: wait;
+}
+
+.listing-loading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 20px 0 4px;
+  color: var(--color-accent);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.listing-loading::before {
+  width: 15px;
+  height: 15px;
+  border: 2px solid var(--color-border);
+  border-top-color: var(--color-accent);
+  border-radius: 50%;
+  animation: listing-spin 0.75s linear infinite;
+  content: '';
+}
+
+@keyframes listing-spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .results-section {
@@ -103,4 +130,37 @@
   font-size: 0.9rem;
   color: var(--color-text-muted);
   margin-bottom: 2px;
+}
+
+@media (max-width: 640px) {
+  .hero-section {
+    padding-top: 32px;
+  }
+
+  .hero-section h1 {
+    font-size: 2rem;
+  }
+
+  .search-form {
+    flex-direction: column;
+    max-width: none;
+  }
+
+  .search-form button {
+    width: 100%;
+  }
+
+  .card-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .listing-loading::before,
+  .card,
+  .search-form button {
+    animation: none;
+    transition: none;
+  }
 }

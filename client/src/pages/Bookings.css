@@ -1,6 +1,3 @@
-/* =========================================================
-   My Bookings
-   ========================================================= */
 .bookings-page {
   padding: 40px 0 64px;
   max-width: 720px;
@@ -35,7 +32,6 @@
   border-color: var(--color-border-hover);
 }
 
-/* Status stripe on the left edge */
 .booking-card::before {
   content: '';
   position: absolute;
@@ -67,7 +63,6 @@
   margin-bottom: 4px;
 }
 
-/* ---------- Status badges ---------- */
 .booking-status {
   display: inline-block;
   padding: 4px 12px;
@@ -94,7 +89,6 @@
   color: var(--color-error);
 }
 
-/* ---------- Actions ---------- */
 .booking-action-btn {
   margin-top: 14px;
   padding: 10px 20px;
@@ -139,9 +133,6 @@
   outline-offset: 2px;
 }
 
-/* =========================================================
-   Ticket view
-   ========================================================= */
 .ticket-page {
   padding: 60px 0;
   display: flex;
@@ -161,7 +152,6 @@
   overflow: hidden;
 }
 
-/* Colour band across the top, like a ticket header */
 .ticket-card::before {
   content: '';
   position: absolute;
@@ -596,5 +586,150 @@
   .tk-code {
     font-size: 1.1rem;
     letter-spacing: 2px;
+  }
+}
+
+
+.booking-card {
+  padding: 0;
+  border: 1px solid rgba(44, 37, 32, 0.12);
+  border-radius: 14px;
+  background: var(--color-surface);
+  box-shadow: 0 8px 22px rgba(44, 37, 32, 0.07);
+}
+
+.booking-card::before {
+  width: 6px;
+}
+
+.booking-card-head {
+  padding: 20px 22px 0 26px;
+}
+
+.booking-card-heading {
+  min-width: 0;
+}
+
+.booking-type {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  color: var(--color-text-secondary);
+}
+
+.booking-type-mark {
+  padding: 4px 7px;
+  border-radius: 5px;
+  background: var(--color-accent-light);
+  color: var(--color-accent);
+  font-size: 0.58rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+}
+
+.booking-card h3 {
+  max-width: 100%;
+  margin-bottom: 0;
+  color: var(--color-black);
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  line-height: 1.25;
+}
+
+.booking-status {
+  margin-top: 0;
+  padding: 5px 10px;
+  font-size: 0.68rem;
+}
+
+.booking-items,
+.booking-detail {
+  margin-right: 22px;
+  margin-left: 26px;
+}
+
+.booking-items {
+  padding-top: 15px;
+  padding-bottom: 2px;
+  border-top-style: solid;
+}
+
+.booking-items li {
+  padding: 5px 0;
+}
+
+.booking-detail {
+  margin-top: 14px;
+  padding: 9px 11px;
+  border-left: 3px solid var(--color-terracotta);
+  background: var(--color-surface-warm);
+  color: var(--color-black);
+}
+
+.booking-card-foot {
+  margin: 20px 22px 0 26px;
+  padding: 16px 0 20px;
+}
+
+.booking-amount strong {
+  display: block;
+  margin-top: 3px;
+  color: var(--color-accent);
+  font-family: var(--font-mono);
+  font-size: 1.22rem;
+}
+
+.booking-pay-btn {
+  background: var(--color-accent);
+  border-radius: 7px;
+}
+
+.booking-view-ticket {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 9px 14px;
+  border: 1px solid var(--color-accent);
+  border-radius: 7px;
+  background: var(--color-accent-light);
+  text-decoration: none;
+}
+
+.booking-pay-error {
+  margin: 0 22px 20px 26px;
+}
+
+@media (max-width: 600px) {
+  .booking-card-head {
+    padding: 17px 16px 0 21px;
+  }
+
+  .booking-card h3 {
+    font-size: 1.1rem;
+  }
+
+  .booking-items,
+  .booking-detail {
+    margin-right: 16px;
+    margin-left: 21px;
+  }
+
+  .booking-card-foot {
+    align-items: flex-start;
+    margin-right: 16px;
+    margin-left: 21px;
+  }
+
+  .booking-actions,
+  .booking-action-btn,
+  .booking-view-ticket {
+    width: 100%;
+  }
+
+  .booking-action-btn,
+  .booking-view-ticket {
+    text-align: center;
+    justify-content: center;
   }
 }

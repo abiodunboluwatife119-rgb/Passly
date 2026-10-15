@@ -12,6 +12,7 @@ const Restaurants = () => {
   const [error, setError] = useState('');
   const [cuisineFilter, setCuisineFilter] = useState('');
   const [searched, setSearched] = useState(false);
+  const [restaurantSearching, setRestaurantSearching] = useState(false);
 
   const [dishQuery, setDishQuery] = useState('');
   const [dishResults, setDishResults] = useState(null);
@@ -33,18 +34,25 @@ const Restaurants = () => {
     fetchRestaurants();
   }, []);
 
-  const handleSearch = (e) => {
+  const handleSearch = async (e) => {
     e.preventDefault();
+    setRestaurantSearching(true);
     setSearched(true);
     setDishResults(null);
+
+    await new Promise((resolve) => setTimeout(resolve, 250));
+
     if (!cuisineFilter.trim()) {
       setRestaurants(allRestaurants);
+      setRestaurantSearching(false);
       return;
     }
+
     const filtered = allRestaurants.filter((restaurant) =>
       restaurant.cuisine.toLowerCase().includes(cuisineFilter.trim().toLowerCase())
     );
     setRestaurants(filtered);
+    setRestaurantSearching(false);
   };
 
   const handleDishSearch = async (e) => {
@@ -79,7 +87,9 @@ const Restaurants = () => {
             value={cuisineFilter}
             onChange={(e) => setCuisineFilter(e.target.value)}
           />
-          <button type="submit">Search Restaurants</button>
+          <button type="submit" disabled={restaurantSearching}>
+            {restaurantSearching ? 'Fetching details...' : 'Search Restaurants'}
+          </button>
         </form>
 
         <form className="search-form" onSubmit={handleDishSearch} style={{ marginTop: 12 }}>
@@ -94,6 +104,12 @@ const Restaurants = () => {
           </button>
         </form>
       </section>
+
+      {restaurantSearching && (
+        <p className="listing-loading" role="status" aria-live="polite">
+          Fetching details...
+        </p>
+      )}
 
       {dishResults && (
         <section className="results-section">

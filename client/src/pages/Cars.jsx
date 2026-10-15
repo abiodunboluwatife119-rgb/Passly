@@ -12,6 +12,7 @@ const Cars = () => {
   const [error, setError] = useState('');
   const [locationFilter, setLocationFilter] = useState('');
   const [searched, setSearched] = useState(false);
+  const [searching, setSearching] = useState(false);
 
   useEffect(() => {
     const fetchCars = async () => {
@@ -29,17 +30,23 @@ const Cars = () => {
     fetchCars();
   }, []);
 
-  const handleSearch = (e) => {
+  const handleSearch = async (e) => {
     e.preventDefault();
+    setSearching(true);
     setSearched(true);
+
+    await new Promise((resolve) => setTimeout(resolve, 700));
+
     if (!locationFilter.trim()) {
       setCars(allCars);
+      setSearching(false);
       return;
     }
     const filtered = allCars.filter((car) =>
       car.location.toLowerCase().includes(locationFilter.trim().toLowerCase())
     );
     setCars(filtered);
+    setSearching(false);
   };
 
   if (loading) return <div className="container cars-page"><p>Loading...</p></div>;
@@ -57,11 +64,19 @@ const Cars = () => {
             value={locationFilter}
             onChange={(e) => setLocationFilter(e.target.value)}
           />
-          <button type="submit">Search</button>
+          <button type="submit" disabled={searching}>
+            {searching ? 'Fetching details...' : 'Search'}
+          </button>
         </form>
       </section>
 
-      {searched && (
+      {searching && (
+        <p className="listing-loading" role="status" aria-live="polite">
+          Fetching details...
+        </p>
+      )}
+
+      {searched && !searching && (
         <section className="results-section">
           <h2>Available Cars</h2>
           {cars.length === 0 ? (

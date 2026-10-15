@@ -24,7 +24,8 @@ const formatDate = (value) =>
 const hasPhoto = (item) => Array.isArray(item.images) && item.images.length > 0;
 
 const DashboardSkeleton = () => (
-  <div aria-busy="true" aria-label="Loading your dashboard">
+  <div aria-busy="true" aria-label="Fetching your dashboard details">
+    <p role="status" aria-live="polite">Fetching details...</p>
     <div className="dash-skeleton dash-skeleton-stats" />
     <div className="dash-skeleton dash-skeleton-panels" />
     <div className="dash-skeleton dash-skeleton-list" />

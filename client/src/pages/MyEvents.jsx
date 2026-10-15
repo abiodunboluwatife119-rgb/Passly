@@ -255,7 +255,11 @@ const MyEvents = () => {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
-  if (loading) return <div className="container"><p>Loading your events...</p></div>;
+  if (loading) return (
+    <div className="container" role="status" aria-live="polite">
+      <p>Fetching details...</p>
+    </div>
+  );
   if (error) return <div className="container"><p>{error}</p></div>;
 
   return (

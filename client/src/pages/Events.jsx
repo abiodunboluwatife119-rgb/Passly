@@ -12,6 +12,7 @@ const Events = () => {
   const [error, setError] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('');
   const [searched, setSearched] = useState(false);
+  const [searching, setSearching] = useState(false);
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -29,17 +30,23 @@ const Events = () => {
     fetchEvents();
   }, []);
 
-  const handleSearch = (e) => {
+  const handleSearch = async (e) => {
     e.preventDefault();
+    setSearching(true);
     setSearched(true);
+
+    await new Promise((resolve) => setTimeout(resolve, 700));
+
     if (!categoryFilter.trim()) {
       setEvents(allEvents);
+      setSearching(false);
       return;
     }
     const filtered = allEvents.filter((event) =>
       event.category.toLowerCase().includes(categoryFilter.trim().toLowerCase())
     );
     setEvents(filtered);
+    setSearching(false);
   };
 
   if (loading) return <div className="container events-page"><p>Loading...</p></div>;
@@ -57,11 +64,19 @@ const Events = () => {
             value={categoryFilter}
             onChange={(e) => setCategoryFilter(e.target.value)}
           />
-          <button type="submit">Search</button>
+          <button type="submit" disabled={searching}>
+            {searching ? 'Fetching details...' : 'Search'}
+          </button>
         </form>
       </section>
 
-      {searched && (
+      {searching && (
+        <p className="listing-loading" role="status" aria-live="polite">
+          Fetching details...
+        </p>
+      )}
+
+      {searched && !searching && (
         <section className="results-section">
           <h2>Events</h2>
           {events.length === 0 ? (

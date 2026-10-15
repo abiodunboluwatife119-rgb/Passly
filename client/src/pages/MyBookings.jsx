@@ -180,6 +180,7 @@ const MyBookings = () => {
     return (
       <div className="container bookings-page">
         <h1>My bookings</h1>
+        <p role="status" aria-live="polite">Fetching details...</p>
         <BookingsSkeleton />
       </div>
     );
@@ -243,10 +244,13 @@ const MyBookings = () => {
               const paying = payingId === booking._id;
 
               return (
-                <article key={booking._id} className="booking-card">
+                <article key={booking._id} className={`booking-card booking-card-${booking.type}`}>
                   <div className="booking-card-head">
-                    <div>
+                    <div className="booking-card-heading">
                       <span className="booking-type">
+                        <span className="booking-type-mark" aria-hidden="true">
+                          {booking.type === 'food' ? 'FOOD' : booking.type === 'car' ? 'RIDE' : 'PASS'}
+                        </span>
                         {TYPE_LABELS[booking.type] || 'Booking'}
                         {booking.createdAt && ` · ${formatPlaced(booking.createdAt)}`}
                       </span>

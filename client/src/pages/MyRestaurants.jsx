@@ -285,7 +285,11 @@ const MyRestaurants = () => {
     }
   };
 
-  if (loading) return <div className="container"><p>Loading your restaurants...</p></div>;
+  if (loading) return (
+    <div className="container" role="status" aria-live="polite">
+      <p>Fetching details...</p>
+    </div>
+  );
   if (error) return <div className="container"><p>{error}</p></div>;
 
   return (

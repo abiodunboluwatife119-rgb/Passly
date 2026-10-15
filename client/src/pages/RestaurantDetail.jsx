@@ -12,7 +12,8 @@ const cartItemPrice = (i) => i.price ?? 0;
 
 const DetailSkeleton = () => (
   <div className="container">
-    <div className="detail-layout" aria-busy="true" aria-label="Loading restaurant">
+    <p role="status" aria-live="polite">Fetching details...</p>
+    <div className="detail-layout" aria-busy="true" aria-label="Fetching details">
       <div>
         <div className="skeleton skeleton-image" />
         <div className="skeleton skeleton-line skeleton-title" />

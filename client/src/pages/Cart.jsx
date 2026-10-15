@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { CartContext } from '../context/CartContext';
 import './Cart.css';
@@ -8,10 +8,33 @@ const naira = (n) => `₦${Number(n || 0).toLocaleString()}`;
 const Cart = () => {
   const { items, removeFromCart, updateQty, total } = useContext(CartContext);
   const navigate = useNavigate();
+  const [updatingItem, setUpdatingItem] = useState(null);
+  const [openingCheckout, setOpeningCheckout] = useState(false);
+
+  const handleUpdateQty = (itemId, nextQty) => {
+    setUpdatingItem(itemId);
+    setTimeout(() => {
+      updateQty(itemId, nextQty);
+      setUpdatingItem(null);
+    }, 300);
+  };
+
+  const handleRemove = (itemId) => {
+    setUpdatingItem(itemId);
+    setTimeout(() => {
+      removeFromCart(itemId);
+      setUpdatingItem(null);
+    }, 300);
+  };
+
+  const handleCheckout = () => {
+    setOpeningCheckout(true);
+    setTimeout(() => navigate('/checkout'), 300);
+  };
 
   if (items.length === 0) {
     return (
-      <div className="container">
+      <div className="container bag-page">
         <div className="bag-empty">
           <div className="bag-empty-mark" aria-hidden="true">🍽</div>
           <h1>Your cart is empty</h1>
@@ -26,7 +49,7 @@ const Cart = () => {
   const restaurantName = items[0].restaurantName;
 
   return (
-    <div className="container">
+    <div className="container bag-page">
       <header className="bag-header">
         <h1>Your cart</h1>
         <p>
@@ -37,7 +60,7 @@ const Cart = () => {
       <div className="bag-layout">
         <ul className="bag-list">
           {items.map((item) => (
-            <li key={item.menuItemId} className="bag-item">
+            <li key={item.menuItemId} className="bag-item bag-item-card">
               {item.image ? (
                 <img src={item.image} alt="" className="bag-item-image" />
               ) : (
@@ -57,7 +80,7 @@ const Cart = () => {
                   <div className="bag-stepper">
                     <button
                       type="button"
-                      onClick={() => updateQty(item.menuItemId, item.qty - 1)}
+                      onClick={() => handleUpdateQty(item.menuItemId, item.qty - 1)}
                       disabled={item.qty <= 1}
                       aria-label={`Decrease ${item.name}`}
                     >
@@ -66,7 +89,7 @@ const Cart = () => {
                     <span aria-live="polite">{item.qty}</span>
                     <button
                       type="button"
-                      onClick={() => updateQty(item.menuItemId, item.qty + 1)}
+                      onClick={() => handleUpdateQty(item.menuItemId, item.qty + 1)}
                       aria-label={`Increase ${item.name}`}
                     >
                       +
@@ -76,7 +99,7 @@ const Cart = () => {
                   <button
                     type="button"
                     className="bag-remove"
-                    onClick={() => removeFromCart(item.menuItemId)}
+                    onClick={() => handleRemove(item.menuItemId)}
                     aria-label={`Remove ${item.name} from cart`}
                   >
                     Remove
@@ -87,8 +110,11 @@ const Cart = () => {
           ))}
         </ul>
 
-        <aside className="bag-summary">
+        <aside className="bag-summary bag-summary-card">
           <h3>Order summary</h3>
+          {updatingItem && (
+            <p role="status" aria-live="polite">Updating cart...</p>
+          )}
 
           <div className="bag-summary-row">
             <span>Items ({itemCount})</span>
@@ -106,9 +132,12 @@ const Cart = () => {
           <button
             type="button"
             className="bag-checkout"
-            onClick={() => navigate('/checkout')}
+            onClick={handleCheckout}
+            disabled={openingCheckout || !!updatingItem}
+            aria-busy={openingCheckout}
+            aria-live="polite"
           >
-            Proceed to checkout
+            {openingCheckout ? 'Opening checkout...' : 'Proceed to checkout'}
           </button>
 
           <Link to="/restaurants" className="bag-continue">Continue browsing</Link>
