@@ -488,7 +488,7 @@ const Home = () => {
                   loop
                   muted
                   playsInline
-                  preload={index === heroVideoIndex ? 'auto' : 'metadata'}
+                  preload={index === heroVideoIndex ? 'metadata' : 'none'}
                   src={video.src}
                   onEnded={() => setHeroVideoIndex((current) => (current + 1) % HERO_VIDEOS.length)}
                 />
