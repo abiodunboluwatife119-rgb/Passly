@@ -39,7 +39,7 @@
 .dashboard-create-card {
   position: relative;
   display: flex;
-  min-height: 208px;
+  min-height: 244px;
   flex-direction: column;
   align-items: flex-start;
   justify-content: space-between;
@@ -50,6 +50,18 @@
   color: var(--color-black, #2c2520);
   background: #f3eee5;
   transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+}
+
+.dashboard-create-category {
+  position: absolute;
+  top: 21px;
+  right: 20px;
+  color: rgba(44, 37, 32, 0.58);
+  font-family: var(--font-mono, monospace);
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
 
 .dashboard-create-card::after {
@@ -109,7 +121,9 @@
   display: flex;
   max-width: 240px;
   flex-direction: column;
-  gap: 7px;
+  gap: 8px;
+  margin-top: auto;
+  padding-top: 20px;
 }
 
 .dashboard-create-copy strong {
@@ -119,6 +133,18 @@
 }
 
 .dashboard-create-copy span {
+  color: var(--color-accent, #5c1a1a);
+  font-size: 0.84rem;
+  font-weight: 600;
+  line-height: 1.45;
+}
+
+.dashboard-create-note {
+  position: relative;
+  z-index: 1;
+  display: block;
+  max-width: 230px;
+  margin-top: 10px;
   color: var(--color-text-muted, #7a7265);
   font-size: 0.86rem;
   line-height: 1.45;
@@ -153,7 +179,7 @@
   }
 
   .dashboard-create-card {
-    min-height: 164px;
+    min-height: 190px;
   }
 }
 
