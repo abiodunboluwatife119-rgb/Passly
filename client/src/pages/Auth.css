@@ -38,7 +38,7 @@
   bottom: -90px;
   border-radius: 50%;
   background-color: #B45A3C;
-  animation: auth-drift 11s ease-in-out infinite;
+  animation: none;
 }
 
 .auth-shape-b {
@@ -48,7 +48,7 @@
   top: 38%;
   border-radius: 50%;
   background-color: #7A2A2A;
-  animation: auth-drift 14s ease-in-out infinite reverse;
+  animation: none;
 }
 
 .auth-shape-c {
@@ -58,7 +58,7 @@
   top: -30px;
   border-radius: 999px 999px 0 0;
   background-color: #6E2323;
-  animation: auth-drift 9s ease-in-out infinite;
+  animation: none;
 }
 
 .auth-shape-d {
@@ -68,7 +68,7 @@
   top: 22%;
   border-radius: 50%;
   background-color: #F0A078;
-  animation: auth-pulse 3.2s ease-in-out infinite;
+  animation: none;
 }
 
 @keyframes auth-drift {
@@ -100,7 +100,7 @@
   font-weight: 400;
   line-height: 1.1;
   color: #F9F7F1;
-  animation: auth-line 0.6s ease both;
+  animation: none;
 }
 
 .auth-rotator em {
@@ -165,7 +165,7 @@
   padding: 18px 20px;
   background-color: #F0A078;
   transform: rotate(7deg);
-  animation: auth-tilt-back 7s ease-in-out infinite;
+  animation: none;
 }
 
 .auth-ticket-back .auth-ticket-label {
@@ -176,7 +176,7 @@
   left: 0;
   top: 22px;
   transform: rotate(-5deg);
-  animation: auth-tilt 6s ease-in-out infinite;
+  animation: none;
 }
 
 .auth-ticket-top {
@@ -507,6 +507,7 @@
   }
 
   .auth-shape-a {
+    animation: none;
     width: 220px;
     height: 220px;
     right: -80px;
@@ -555,4 +556,18 @@
   .auth-check::after {
     transition: none;
   }
+}
+
+.auth-brand .auth-shape,
+.auth-brand .auth-ticket,
+.auth-brand .auth-rotator {
+  animation: none;
+}
+
+.auth-brand .auth-ticket-back {
+  transform: rotate(7deg);
+}
+
+.auth-brand .auth-ticket-front {
+  transform: rotate(-5deg);
 }
