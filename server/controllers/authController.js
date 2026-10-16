@@ -18,8 +18,14 @@ export const signup = async (req, res) => {
   try {
     const { name, email, password } = req.body;
 
-    if (!name || !email || !password) {
+    const trimmedName = name?.trim();
+
+    if (!trimmedName || !email || !password) {
       return res.status(400).json({ message: 'Please fill in all fields' });
+    }
+
+    if (trimmedName.length < 3) {
+      return res.status(400).json({ message: 'Full name must be at least 3 letters' });
     }
 
     if (!isPasswordStrong(password)) {
@@ -37,7 +43,7 @@ export const signup = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, salt);
 
     const user = await User.create({
-      name,
+      name: trimmedName,
       email: email.toLowerCase(),
       password: hashedPassword,
     });

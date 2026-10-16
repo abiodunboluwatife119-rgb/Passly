@@ -5,6 +5,7 @@ import AuthShell from '../components/AuthShell';
 
 const API_URL = import.meta.env.VITE_API_URL;
 const NAME_ALLOWED_CHARACTERS = /[^A-Za-zÀ-ÖØ-öø-ÿ' -]/g;
+const NAME_MIN_LENGTH = 3;
 
 const Signup = () => {
   const { signup } = useContext(AuthContext);
@@ -28,6 +29,12 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+
+    if (name.trim().length < NAME_MIN_LENGTH) {
+      setError('Full name must be at least 3 letters.');
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -76,6 +83,7 @@ const Signup = () => {
             onChange={(e) => setName(e.target.value.replace(NAME_ALLOWED_CHARACTERS, ''))}
             pattern="[A-Za-zÀ-ÖØ-öø-ÿ' -]+"
             title="Use letters, spaces, apostrophes, or hyphens only."
+            minLength={NAME_MIN_LENGTH}
             required
           />
         </div>
