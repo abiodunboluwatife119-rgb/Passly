@@ -338,27 +338,33 @@ const Dashboard = () => {
 
             <nav className="dashboard-create-grid" aria-label="Create a listing">
               <Link to="/dashboard/events" className="dashboard-create-card dashboard-create-event">
+                <span className="dashboard-create-category">Events</span>
                 <span className="dashboard-create-plus" aria-hidden="true">+</span>
                 <span className="dashboard-create-copy">
                   <strong>Create an event</strong>
-                  <span>Add a concert, comedy show, festival, or other experience.</span>
+                  <span>{events.length} event{events.length === 1 ? '' : 's'} · {publishedEvents} published · {draftEvents} draft{draftEvents === 1 ? '' : 's'}</span>
                 </span>
+                <span className="dashboard-create-note">Add a concert, comedy show, festival, or other experience.</span>
                 <span className="dashboard-create-arrow" aria-hidden="true">↗</span>
               </Link>
               <Link to="/dashboard/cars" className="dashboard-create-card dashboard-create-car">
+                <span className="dashboard-create-category">Cars</span>
                 <span className="dashboard-create-plus" aria-hidden="true">+</span>
                 <span className="dashboard-create-copy">
                   <strong>Add a car</strong>
-                  <span>List a car with its price, location, photos, and availability.</span>
+                  <span>{cars.length} car{cars.length === 1 ? '' : 's'} · {availableCars} available</span>
                 </span>
+                <span className="dashboard-create-note">List a vehicle with its price, photos, and availability.</span>
                 <span className="dashboard-create-arrow" aria-hidden="true">↗</span>
               </Link>
               <Link to="/dashboard/restaurants" className="dashboard-create-card dashboard-create-restaurant">
+                <span className="dashboard-create-category">Restaurants</span>
                 <span className="dashboard-create-plus" aria-hidden="true">+</span>
                 <span className="dashboard-create-copy">
                   <strong>Add a restaurant</strong>
-                  <span>Set up your restaurant and add the dishes on your menu.</span>
+                  <span>{restaurants.length} restaurant{restaurants.length === 1 ? '' : 's'} · {menuItemCount} menu item{menuItemCount === 1 ? '' : 's'}</span>
                 </span>
+                <span className="dashboard-create-note">Set up your restaurant and add its menu.</span>
                 <span className="dashboard-create-arrow" aria-hidden="true">↗</span>
               </Link>
             </nav>
